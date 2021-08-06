@@ -1015,39 +1015,42 @@ namespace lsp
                 for (size_t i=0; i<nChannels; ++i)
                 {
                     const channel_t *c = &vChannels[i];
+                    v->begin_object(c, sizeof(channel_t));
+                    {
+                        v->write_object("sBypass", &c->sBypass);
+                        v->write_object("sDelay", &c->sDelay);
+                        v->write_object("sPlayer", &c->sPlayer);
+                        v->write_object("sEqualizer", &c->sEqualizer);
+                        v->write_object("pCurr", c->pCurr);
+                        v->write_object("pSwap", c->pSwap);
 
-                    v->write_object("sBypass", &c->sBypass);
-                    v->write_object("sDelay", &c->sDelay);
-                    v->write_object("sPlayer", &c->sPlayer);
-                    v->write_object("sEqualizer", &c->sEqualizer);
-                    v->write_object("pCurr", c->pCurr);
-                    v->write_object("pSwap", c->pSwap);
+                        v->write("vIn", c->vIn);
+                        v->write("vOut", c->vOut);
+                        v->write("vBuffer", c->vBuffer);
+                        v->write("fDryGain", c->fDryGain);
+                        v->write("fWetGain", c->fWetGain);
+                        v->write("nSource", c->nSource);
+                        v->write("nSourceReq", c->nSourceReq);
+                        v->write("nRank", c->nRank);
+                        v->write("nRankReq", c->nRankReq);
 
-                    v->write("vIn", c->vIn);
-                    v->write("vOut", c->vOut);
-                    v->write("vBuffer", c->vBuffer);
-                    v->write("fDryGain", c->fDryGain);
-                    v->write("fWetGain", c->fWetGain);
-                    v->write("nSource", c->nSource);
-                    v->write("nSourceReq", c->nSourceReq);
-                    v->write("nRank", c->nRank);
-                    v->write("nRankReq", c->nRankReq);
+                        v->write("pIn", c->pIn);
+                        v->write("pOut", c->pOut);
 
-                    v->write("pIn", c->pIn);
-                    v->write("pOut", c->pOut);
+                        v->write("pSource", c->pSource);
+                        v->write("pMakeup", c->pMakeup);
+                        v->write("pActivity", c->pActivity);
+                        v->write("pPredelay", c->pPredelay);
 
-                    v->write("pSource", c->pSource);
-                    v->write("pMakeup", c->pMakeup);
-                    v->write("pActivity", c->pActivity);
-                    v->write("pPredelay", c->pPredelay);
+                        v->write("pWetEq", c->pWetEq);
+                        v->write("pLowCut", c->pLowCut);
+                        v->write("pLowFreq", c->pLowFreq);
+                        v->write("pHighCut", c->pHighCut);
+                        v->write("pHighFreq", c->pHighFreq);
 
-                    v->write("pWetEq", c->pWetEq);
-                    v->write("pLowCut", c->pLowCut);
-                    v->write("pLowFreq", c->pLowFreq);
-                    v->write("pHighCut", c->pHighCut);
-                    v->write("pHighFreq", c->pHighFreq);
-
-                    v->writev("pFreqGain", c->pFreqGain, meta::impulse_responses_metadata::EQ_BANDS);
+                        v->writev("pFreqGain", c->pFreqGain, meta::impulse_responses_metadata::EQ_BANDS);
+                    }
+                    v->end_object();
                 }
             }
             v->end_array();
@@ -1056,38 +1059,41 @@ namespace lsp
                 for (size_t i=0; i<nChannels; ++i)
                 {
                     const af_descriptor_t *af = &vFiles[i];
+                    v->begin_object(af, sizeof(af_descriptor_t));
+                    {
+                        v->write_object("pCurr", af->pCurr);
+                        v->write_object("pSwap", af->pSwap);
 
-                    v->write_object("pCurr", af->pCurr);
-                    v->write_object("pSwap", af->pSwap);
+                        v->write_object("sListen", &af->sListen);
+                        v->write_object("pSwapSample", af->pSwapSample);
+                        v->write_object("pCurrSample", af->pCurrSample);
 
-                    v->write_object("sListen", &af->sListen);
-                    v->write_object("pSwapSample", af->pSwapSample);
-                    v->write_object("pCurrSample", af->pCurrSample);
+                        v->writev("vThumbs", af->vThumbs, meta::impulse_responses_metadata::TRACKS_MAX);
 
-                    v->writev("vThumbs", af->vThumbs, meta::impulse_responses_metadata::TRACKS_MAX);
+                        v->write("fNorm", af->fNorm);
+                        v->write("bRender", af->bRender);
+                        v->write("nStatus", af->nStatus);
+                        v->write("bSync", af->bSync);
+                        v->write("bSwap", af->bSwap);
 
-                    v->write("fNorm", af->fNorm);
-                    v->write("bRender", af->bRender);
-                    v->write("nStatus", af->nStatus);
-                    v->write("bSync", af->bSync);
-                    v->write("bSwap", af->bSwap);
+                        v->write("fHeadCut", af->fHeadCut);
+                        v->write("fTailCut", af->fTailCut);
+                        v->write("fFadeIn", af->fFadeIn);
+                        v->write("fFadeOut", af->fFadeOut);
 
-                    v->write("fHeadCut", af->fHeadCut);
-                    v->write("fTailCut", af->fTailCut);
-                    v->write("fFadeIn", af->fFadeIn);
-                    v->write("fFadeOut", af->fFadeOut);
+                        v->write_object("pLoader", af->pLoader);
 
-                    v->write_object("pLoader", af->pLoader);
-
-                    v->write("pFile", af->pFile);
-                    v->write("pHeadCut", af->pHeadCut);
-                    v->write("pTailCut", af->pTailCut);
-                    v->write("pFadeIn", af->pFadeIn);
-                    v->write("pFadeOut", af->pFadeOut);
-                    v->write("pListen", af->pListen);
-                    v->write("pStatus", af->pStatus);
-                    v->write("pLength", af->pLength);
-                    v->write("pThumbs", af->pThumbs);
+                        v->write("pFile", af->pFile);
+                        v->write("pHeadCut", af->pHeadCut);
+                        v->write("pTailCut", af->pTailCut);
+                        v->write("pFadeIn", af->pFadeIn);
+                        v->write("pFadeOut", af->pFadeOut);
+                        v->write("pListen", af->pListen);
+                        v->write("pStatus", af->pStatus);
+                        v->write("pLength", af->pLength);
+                        v->write("pThumbs", af->pThumbs);
+                    }
+                    v->end_object();
                 }
             }
             v->end_array();
