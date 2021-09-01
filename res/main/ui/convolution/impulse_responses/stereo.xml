@@ -2,41 +2,40 @@
 	<vbox spacing="4">
 		<!-- IR editor -->
 		<group text="groups.impulse_response">
-			<vbox spacing="4">
+			<vbox>
 				<!-- File editor -->
-				<align hpos="-1">
-					<hbox spacing="4">
-						<label text="labels.fft.frame" />
-						<combo id="fft" />
-						<label text="labels.file" />
-						<combo id="fsel" />
-						<label text="labels.ir_equalizer" />
-						<button id="wpp" color="green" led="true" />
-						<label text="labels.flt.show_" />
-						<button id="eqv" color="yellow" led="true" />
-					</hbox>
-				</align>
-				
-				<hbox border="2" expand="true">
-					<file fill="true"
-						id="ifn0" head_id="ihc0" tail_id="itc0"
-						fadein_id="ifi0" fadeout_id="ifo0" length_id="ifl0"
-						status_id="ifs0" mesh_id="ifd0"
-						width="600" height="128"
-						visibility=":fsel ie 0"
-						path_id="ui:dlg_ir_path"
-						format="audio_lspc,all"
-						/>
-					<file fill="true"
-						id="ifn1" head_id="ihc1" tail_id="itc1"
-						fadein_id="ifi1" fadeout_id="ifo1" length_id="ifl1"
-						status_id="ifs1" mesh_id="ifd1"
-						width="600" height="128"
-						visibility=":fsel ie 1"
-						path_id="ui:dlg_ir_path"
-						format="audio_lspc,audio,all"
-						/>
+				<hbox spacing="4">
+					<label text="labels.fft.frame" />
+					<combo id="fft" />
+					<label text="labels.file" />
+					<combo id="fsel" />
+					<label text="labels.ir_equalizer" />
+					<button id="wpp" color="green" led="true" />
+					<label text="labels.flt.show_" />
+					<button id="eqv" color="yellow" led="true" />
+					<void hexpand="true" />
 				</hbox>
+				
+				<ui:for id="i" first="0" last="1">
+					<asample expand="true"
+						id="ifn${i}"
+						mesh_id="ifd${i}"
+						path_id="_ui_dlg_ir_path"
+						hcut=":ihc${i}"
+						tcut=":itc${i}"
+						fadein=":ifi${i}"
+						fadeout=":ifo${i}"
+						length=":ifl${i}"
+						status=":ifs${i}"
+						width.min="600" height.min="128"
+						clipboard.head_cut="ihc${i}"
+						clipboard.tail_cut="itc${i}"
+						clipboard.fade_in="ifi${i}"
+						clipboard.fade_out="ifo${i}"
+						format="audio_lspc,audio,all"
+						visibility=":fsel ieq ${i}"
+					/>
+				</ui:for>
 	
 				<hbox>
 					<grid rows="5" cols="5" expand="true">
@@ -48,8 +47,8 @@
 						
 						<knob id="ihc0" size="20" />
 						<knob id="itc0" size="20" />
-						<knob id="ifi0" size="20" scale_color="yellow" />
-						<knob id="ifo0" size="20" scale_color="yellow" />
+						<knob id="ifi0" size="20" scolor="yellow" />
+						<knob id="ifo0" size="20" scolor="yellow" />
 						<button id="ils0" size="32" toggle="false" />
 						
 						<value id="ihc0" />
@@ -60,8 +59,8 @@
 						
 						<knob id="ihc1" size="20" />
 						<knob id="itc1" size="20" />
-						<knob id="ifi1" size="20" scale_color="yellow" />
-						<knob id="ifo1" size="20" scale_color="yellow" />
+						<knob id="ifi1" size="20" scolor="yellow" />
+						<knob id="ifo1" size="20" scolor="yellow" />
 						<button id="ils1" size="32" toggle="false" />
 						
 						<value id="ihc1" />
@@ -106,11 +105,11 @@
 					</grid>
 					<vsep />
 					<grid rows="3" cols="2" expand="true">
-						<label text="labels.signal.dry" scale_color="yellow" />
-						<label text="labels.signal.wet" scale_color="yellow" />
+						<label text="labels.signal.dry" scolor="yellow" />
+						<label text="labels.signal.wet" scolor="yellow" />
 						
-						<knob id="dry" size="32" />
-						<knob id="wet" size="32" />
+						<knob id="dry" />
+						<knob id="wet" />
 						
 						<value id="dry" />
 						<value id="wet" />
@@ -118,13 +117,13 @@
 					<vsep />
 					<grid rows="3" cols="1" expand="true">
 						<label text="labels.output" />
-						<knob id="g_out" size="32" />
+						<knob id="g_out" />
 						<value id="g_out" />
 					</grid>
 				</hbox>
 			</vbox>
 		</group>
-	
+
 		<!-- Wet equalization -->
 		<group text="groups.wet_signal_eq" visibility=":eqv">
 			<grid rows="5" cols="10">
@@ -141,32 +140,21 @@
 					<label text="labels.flt.high_cut" />
 					
 					<combo id="lcm" />
-					<cell rows="3"><fader id="eq_0" angle="1" /></cell>
-					<cell rows="3"><fader id="eq_1" angle="1" /></cell>
-					<cell rows="3"><fader id="eq_2" angle="1" /></cell>
-					<cell rows="3"><fader id="eq_3" angle="1" /></cell>
-					<cell rows="3"><fader id="eq_4" angle="1" /></cell>
-					<cell rows="3"><fader id="eq_5" angle="1" /></cell>
-					<cell rows="3"><fader id="eq_6" angle="1" /></cell>
-					<cell rows="3"><fader id="eq_7" angle="1" /></cell>
+					<ui:for id="f" first="0" last="7"> 
+						<cell rows="3"><fader id="eq_${f}" angle="1" /></cell>
+					</ui:for>
 					<combo id="hcm" />
 					
 					<label text="labels.frequency" />
 					<label text="labels.frequency" />
 					
-					<knob id="lcf" logarithmic="true" />
-					<knob id="hcf" logarithmic="true" />
+					<knob id="lcf" />
+					<knob id="hcf" />
 					
 					<value id="lcf" />
-					<value id="eq_0" />
-					<value id="eq_1" />
-					<value id="eq_2" />
-					<value id="eq_3" />
-					<value id="eq_4" />
-					<value id="eq_5" />
-					<value id="eq_6" />
-					<value id="eq_7" />
-					<value id="hcf" />
+					<ui:for id="f" first="0" last="7">
+						<value id="eq_${f}" />
+					</ui:for>
 				</ui:attributes>
 			</grid>
 		</group>
