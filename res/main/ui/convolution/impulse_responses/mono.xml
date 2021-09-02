@@ -127,6 +127,7 @@
 					<ui:for id="f" first="0" last="7">
 						<value id="eq_${f}" bright="(:wpp) ? 1 : 0.5" />
 					</ui:for>
+					<value id="hcf" />
 				</ui:attributes>
 			</grid>
 		</group>
