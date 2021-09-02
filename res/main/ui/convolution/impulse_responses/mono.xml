@@ -113,7 +113,7 @@
 					
 					<combo id="lcm" />
 					<ui:for id="f" first="0" last="7"> 
-						<cell rows="3"><fader id="eq_${f}" angle="1" /></cell>
+						<cell rows="3"><fader id="eq_${f}" angle="1" bright="(:wpp) ? 1 : 0.5" /></cell>
 					</ui:for>
 					<combo id="hcm" />
 					
@@ -125,7 +125,7 @@
 					
 					<value id="lcf" />
 					<ui:for id="f" first="0" last="7">
-						<value id="eq_${f}" />
+						<value id="eq_${f}" bright="(:wpp) ? 1 : 0.5" />
 					</ui:for>
 				</ui:attributes>
 			</grid>
