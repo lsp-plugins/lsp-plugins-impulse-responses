@@ -127,7 +127,7 @@
 		<!-- Wet equalization -->
 		<group text="groups.wet_signal_eq" visibility=":eqv">
 			<grid rows="5" cols="10">
-				<ui:attributes bright="(:wpp) ? 1 : 0.5">
+				<ui:with bright="(:wpp) ? 1 : 0.5">
 					<label text="labels.flt.low_cut" />
 					<label text="50" />
 					<label text="107" />
@@ -156,7 +156,7 @@
 						<value id="eq_${f}" bright="(:wpp) ? 1 : 0.5" />
 					</ui:for>
 					<value id="hcf" />
-				</ui:attributes>
+				</ui:with>
 			</grid>
 		</group>
 	</vbox>
