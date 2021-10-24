@@ -98,7 +98,7 @@
 					</ui:with>
 
 					<hbox fill="false" spacing="4">
-						<led id="ca" size="10"/>
+						<led id="ca" size="10" pad.b="1"/>
 						<label text="labels.active"/>
 					</hbox>
 

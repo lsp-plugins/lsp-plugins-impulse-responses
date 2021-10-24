@@ -103,7 +103,7 @@
 					</ui:with>
 
 					<hbox fill="false" spacing="4">
-						<led id="ca_l" size="10" />
+						<led id="ca_l" size="10" pad.b="1"/>
 						<label text="labels.active"/>
 
 					</hbox>
@@ -152,7 +152,7 @@
 					</ui:with>
 
 					<hbox fill="false" spacing="4">
-						<led id="ca_r" size="10" />
+						<led id="ca_r" size="10" pad.b="1"/>
 						<label text="labels.active"/>
 
 					</hbox>
