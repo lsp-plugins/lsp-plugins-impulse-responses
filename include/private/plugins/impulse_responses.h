@@ -186,7 +186,7 @@ namespace lsp
                 explicit impulse_responses(const meta::plugin_t *meta);
                 virtual ~impulse_responses();
 
-                virtual void        init(plug::IWrapper *wrapper);
+                virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports);
                 virtual void        destroy();
 
             public:
