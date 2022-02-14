@@ -165,6 +165,15 @@ namespace lsp
 
         static const int impulse_responses_classes[] = { C_REVERB, -1 };
 
+        const meta::bundle_t impulse_responses_bundle =
+        {
+            "impulse_responses",
+            "Impulse Responses",
+            B_CONVOLUTION,
+            "BBcLpAx02UM",
+            "This plugin performs highly optimized real time zero-latency convolution\nto the input signal. It can be used as a cabinet emulator, some sort of\nequalizer or as a reverb simulation plugin. All what is needed is audio\nfile with impulse response taken from the linear system (cabinet, equalizer\nor hall/room)."
+        };
+
         const meta::plugin_t  impulse_responses_mono =
         {
             "Impulsantworten Mono",
@@ -183,7 +192,8 @@ namespace lsp
             impulse_responses_mono_ports,
             "convolution/impulse_responses/mono.xml",
             NULL,
-            mono_plugin_port_groups
+            mono_plugin_port_groups,
+            &impulse_responses_bundle
         };
 
         const meta::plugin_t  impulse_responses_stereo =
@@ -204,7 +214,8 @@ namespace lsp
             impulse_responses_stereo_ports,
             "convolution/impulse_responses/stereo.xml",
             NULL,
-            stereo_plugin_port_groups
+            stereo_plugin_port_groups,
+            &impulse_responses_bundle
         };
     } // namespace meta
 } // namespace lsp
