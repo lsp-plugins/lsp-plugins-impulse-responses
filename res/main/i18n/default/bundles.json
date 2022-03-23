@@ -1,0 +1,7 @@
+{
+	"impulse_responses": {
+		"name": "Impulse Responses",
+		"description": "This plugin performs highly optimized real time zero-latency convolution\nto the input signal. It can be used as a cabinet emulator, some sort of\nequalizer or as a reverb simulation plugin. All what is needed is audio\nfile with impulse response taken from the linear system (cabinet, equalizer\nor hall/room)."
+	}
+}
+
