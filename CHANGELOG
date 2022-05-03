@@ -2,8 +2,12 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.5 ===
+* Updated build scripts and dependencies.
+
 === 1.0.4 ===
 * Updated dependencies and build scripts.
 
 === 1.0.3 ===
 * Initial release.
+
