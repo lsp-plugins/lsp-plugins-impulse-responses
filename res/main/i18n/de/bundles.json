@@ -1,0 +1,7 @@
+{
+	"impulse_responses": {
+		"name": "Impulse Responses",
+		"description": "Dieses Plugin führt hoch optimierte Echtzeit-Niedriglatenz-\nKonvolution am Eingangssignal durch. Es kann als Amp-Emulator genutzt werden, sowie \nals eine Art Equalizer- bzw. Reverbsimulationsplugin. Benötigt wird nur eine Audiodatei einer \nImpulsantwort von einem linearen System (PA, Equalizer oder eines Raumes."
+	}
+}
+
