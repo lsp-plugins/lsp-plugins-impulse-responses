@@ -32,37 +32,37 @@ namespace lsp
     {
         struct impulse_responses_metadata
         {
-            static const float CONV_LENGTH_MIN          = 0.0f;     // Minimum convolution length (ms)
-            static const float CONV_LENGTH_MAX          = 10000.0f; // Maximum convoluition length (ms)
-            static const float CONV_LENGTH_DFL          = 0.0f;     // Convolution length (ms)
-            static const float CONV_LENGTH_STEP         = 0.1f;     // Convolution step (ms)
+            static constexpr float CONV_LENGTH_MIN          = 0.0f;     // Minimum convolution length (ms)
+            static constexpr float CONV_LENGTH_MAX          = 10000.0f; // Maximum convoluition length (ms)
+            static constexpr float CONV_LENGTH_DFL          = 0.0f;     // Convolution length (ms)
+            static constexpr float CONV_LENGTH_STEP         = 0.1f;     // Convolution step (ms)
 
-            static const float PREDELAY_MIN             = 0.0f;     // Minimum pre-delay length (ms)
-            static const float PREDELAY_MAX             = 100.0f;   // Maximum pre-delay length (ms)
-            static const float PREDELAY_DFL             = 0.0f;     // Pre-delay length (ms)
-            static const float PREDELAY_STEP            = 0.01f;    // Pre-delay step (ms)
+            static constexpr float PREDELAY_MIN             = 0.0f;     // Minimum pre-delay length (ms)
+            static constexpr float PREDELAY_MAX             = 100.0f;   // Maximum pre-delay length (ms)
+            static constexpr float PREDELAY_DFL             = 0.0f;     // Pre-delay length (ms)
+            static constexpr float PREDELAY_STEP            = 0.01f;    // Pre-delay step (ms)
 
-            static const float LCF_MIN                  = 10.0f;
-            static const float LCF_MAX                  = 1000.0f;
-            static const float LCF_DFL                  = 50.0f;
-            static const float LCF_STEP                 = 0.001f;
+            static constexpr float LCF_MIN                  = 10.0f;
+            static constexpr float LCF_MAX                  = 1000.0f;
+            static constexpr float LCF_DFL                  = 50.0f;
+            static constexpr float LCF_STEP                 = 0.001f;
 
-            static const float HCF_MIN                  = 2000.0f;
-            static const float HCF_MAX                  = 22000.0f;
-            static const float HCF_DFL                  = 10000.0f;
-            static const float HCF_STEP                 = 0.001f;
+            static constexpr float HCF_MIN                  = 2000.0f;
+            static constexpr float HCF_MAX                  = 22000.0f;
+            static constexpr float HCF_DFL                  = 10000.0f;
+            static constexpr float HCF_STEP                 = 0.001f;
 
-            static const float BA_MIN                   = GAIN_AMP_M_12_DB;
-            static const float BA_MAX                   = GAIN_AMP_P_12_DB;
-            static const float BA_DFL                   = GAIN_AMP_0_DB;
-            static const float BA_STEP                  = 0.0025f;
+            static constexpr float BA_MIN                   = GAIN_AMP_M_12_DB;
+            static constexpr float BA_MAX                   = GAIN_AMP_P_12_DB;
+            static constexpr float BA_DFL                   = GAIN_AMP_0_DB;
+            static constexpr float BA_STEP                  = 0.0025f;
 
-            static const size_t EQ_BANDS                = 8;        // 8 bands for equalization
+            static constexpr size_t EQ_BANDS                = 8;        // 8 bands for equalization
 
-            static const size_t MESH_SIZE               = 600;      // Maximum mesh size
-            static const size_t TRACKS_MAX              = 2;        // Maximum tracks per mesh/sample
+            static constexpr size_t MESH_SIZE               = 600;      // Maximum mesh size
+            static constexpr size_t TRACKS_MAX              = 2;        // Maximum tracks per mesh/sample
 
-            static const size_t FFT_RANK_MIN            = 9;        // Minimum FFT rank
+            static constexpr size_t FFT_RANK_MIN            = 9;        // Minimum FFT rank
 
             enum fft_rank_t
             {
