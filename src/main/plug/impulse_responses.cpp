@@ -713,6 +713,9 @@ namespace lsp
 
         void impulse_responses::process_gc_events()
         {
+            if (sGCTask.completed())
+                sGCTask.reset();
+
             if (sGCTask.idle())
             {
                 // Obtain the list of samples for destroy
@@ -724,11 +727,6 @@ namespace lsp
                 }
                 if (pGCList != NULL)
                     pExecutor->submit(&sGCTask);
-            }
-            else if (sGCTask.completed())
-            {
-                // The garbage collection has succeeded
-                sGCTask.reset();
             }
         }
 
