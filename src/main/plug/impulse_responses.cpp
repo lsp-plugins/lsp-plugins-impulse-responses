@@ -816,8 +816,8 @@ namespace lsp
                 channels                = lsp_min(channels, nChannels);
 
                 // Output activity indicator
-                size_t length           = (af->pOriginal != NULL) ? af->pOriginal->samples() : 0;
-                af->pLength->set_value(dspu::samples_to_millis(fSampleRate, length));
+                float duration          = (af->pOriginal != NULL) ? af->pOriginal->duration() : 0.0f;
+                af->pLength->set_value(duration * 1000.0f);
                 af->pStatus->set_value(af->nStatus);
 
                 // Store file dump to mesh
