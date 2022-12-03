@@ -111,19 +111,26 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/plug/impulse_responses.o: \
  $(LSP_DSP_LIB_INC)/lsp-plug.in/dsp/common/interpolation/linear.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/filters/Filter.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/Sample.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/types.h \
  $(LSP_RUNTIME_LIB_INC)/lsp-plug.in/mm/IOutAudioStream.h \
  $(LSP_RUNTIME_LIB_INC)/lsp-plug.in/mm/types.h \
  $(LSP_RUNTIME_LIB_INC)/lsp-plug.in/mm/IInAudioStream.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/SamplePlayer.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/helpers/batch.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/helpers/playback.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/PlaySettings.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/Playback.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/util/Convolver.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/util/Delay.h \
  $(LSP_PLUGINS_IMPULSE_RESPONSES_INC)/private/meta/impulse_responses.h \
- $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/meta/func.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/alloc.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/stdlib.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/atomic.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/arch/x86/atomic.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/units.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/math.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/misc/fade.h \
- $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/alloc.h \
- $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/stdlib.h
+ $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/meta/func.h
 $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  main/ui/impulse_responses.cpp \
  $(LSP_PLUGINS_IMPULSE_RESPONSES_INC)/private/plugins/impulse_responses.h \
@@ -223,10 +230,15 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  $(LSP_DSP_LIB_INC)/lsp-plug.in/dsp/common/interpolation/linear.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/filters/Filter.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/Sample.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/types.h \
  $(LSP_RUNTIME_LIB_INC)/lsp-plug.in/mm/IOutAudioStream.h \
  $(LSP_RUNTIME_LIB_INC)/lsp-plug.in/mm/types.h \
  $(LSP_RUNTIME_LIB_INC)/lsp-plug.in/mm/IInAudioStream.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/SamplePlayer.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/helpers/batch.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/helpers/playback.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/PlaySettings.h \
+ $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/sampling/Playback.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/util/Convolver.h \
  $(LSP_DSP_UNITS_INC)/lsp-plug.in/dsp-units/util/Delay.h \
  $(LSP_PLUGINS_IMPULSE_RESPONSES_INC)/private/meta/impulse_responses.h \
@@ -357,6 +369,7 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/base/Registry.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/cast.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/base/WidgetContainer.h \
+ $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/Bevel.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/Button.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/CheckBox.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/Edit.h \
@@ -374,7 +387,6 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/Separator.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/Switch.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/Void.h \
- $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/simple/Bevel.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/Window.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/PopupWindow.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/Align.h \
@@ -383,6 +395,8 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/Group.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/ScrollArea.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/MultiLabel.h \
+ $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/Tab.h \
+ $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/containers/TabControl.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/compound/Menu.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/compound/ListBox.h \
  $(LSP_TK_LIB_INC)/lsp-plug.in/tk/widgets/compound/ComboBox.h \
@@ -465,6 +479,7 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/containers/Grid.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/containers/Cell.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/containers/MultiLabel.h \
+ $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/containers/TabControl.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/compound/ComboBox.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/compound/ComboGroup.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/graph/Graph.h \

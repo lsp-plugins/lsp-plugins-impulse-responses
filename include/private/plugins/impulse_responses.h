@@ -45,27 +45,15 @@ namespace lsp
             protected:
                 class IRLoader;
 
-                typedef struct reconfig_t
-                {
-                    bool        bRender;
-                    size_t      nSource;
-                    size_t      nRank;
-                } reconfig_t;
-
                 typedef struct af_descriptor_t
                 {
-                    dspu::Sample       *pCurr;
-                    dspu::Sample       *pSwap;
-
-                    dspu::Toggle        sListen;                // Listen toggle
-                    dspu::Sample       *pSwapSample;
-                    dspu::Sample       *pCurrSample;            // Rendered file sample
+                    dspu::Toggle        sListen;        // Listen toggle
+                    dspu::Sample       *pOriginal;      // Original file sample
+                    dspu::Sample       *pProcessed;     // Processed file sample by the reconfigure() call
                     float              *vThumbs[meta::impulse_responses_metadata::TRACKS_MAX];           // Thumbnails
                     float               fNorm;          // Norming factor
-                    bool                bRender;        // Flag that indicates that file needs rendering
                     status_t            nStatus;
                     bool                bSync;          // Synchronize file
-                    bool                bSwap;          // Swap samples
 
                     float               fHeadCut;
                     float               fTailCut;
@@ -101,9 +89,6 @@ namespace lsp
                     float               fDryGain;
                     float               fWetGain;
                     size_t              nSource;
-                    size_t              nSourceReq;
-                    size_t              nRank;
-                    size_t              nRankReq;
 
                     plug::IPort        *pIn;
                     plug::IPort        *pOut;
@@ -140,7 +125,6 @@ namespace lsp
                 class IRConfigurator: public ipc::ITask
                 {
                     private:
-                        reconfig_t                  sReconfig[meta::impulse_responses_metadata::TRACKS_MAX];
                         impulse_responses          *pCore;
 
                     public:
@@ -150,21 +134,46 @@ namespace lsp
                     public:
                         virtual status_t run();
                         void        dump(dspu::IStateDumper *v) const;
+                };
 
-                        inline void set_render(size_t idx, bool render)     { sReconfig[idx].bRender    = render; }
-                        inline void set_source(size_t idx, size_t source)   { sReconfig[idx].nSource    = source; }
-                        inline void set_rank(size_t idx, size_t rank)       { sReconfig[idx].nRank      = rank; }
+                class GCTask: public ipc::ITask
+                {
+                    private:
+                        impulse_responses          *pCore;
+
+                    public:
+                        explicit GCTask(impulse_responses *base);
+                        virtual ~GCTask();
+
+                    public:
+                        virtual status_t run();
+
+                        void        dump(dspu::IStateDumper *v) const;
                 };
 
             protected:
+                bool                    has_active_loading_tasks();
                 status_t                load(af_descriptor_t *descr);
-                status_t                reconfigure(const reconfig_t *cfg);
+                status_t                reconfigure();
+                void                    process_configuration_tasks();
+                void                    process_loading_tasks();
+                void                    process_gc_events();
+                void                    process_listen_events();
+                void                    perform_convolution(size_t samples);
+                void                    output_parameters();
+                void                    perform_gc();
+
+            protected:
+                static void             destroy_samples(dspu::Sample *gc_list);
+                static void             destroy_sample(dspu::Sample * &s);
+                static void             destroy_convolver(dspu::Convolver * &c);
                 static void             destroy_file(af_descriptor_t *af);
                 static void             destroy_channel(channel_t *c);
                 static size_t           get_fft_rank(size_t rank);
 
             protected:
                 IRConfigurator          sConfigurator;
+                GCTask                  sGCTask;
 
                 size_t                  nChannels;
                 channel_t              *vChannels;
@@ -173,6 +182,8 @@ namespace lsp
                 size_t                  nReconfigReq;
                 size_t                  nReconfigResp;
                 float                   fGain;
+                size_t                  nRank;
+                dspu::Sample           *pGCList;        // Garbage collection list
 
                 plug::IPort            *pBypass;
                 plug::IPort            *pRank;
