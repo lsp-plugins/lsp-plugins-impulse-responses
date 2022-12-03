@@ -164,15 +164,33 @@ namespace lsp
         {
         }
 
+        void impulse_responses::destroy_sample(dspu::Sample * &s)
+        {
+            if (s == NULL)
+                return;
+            s->destroy();
+            delete s;
+            lsp_trace("Destroyed sample %p", s);
+            s   = NULL;
+        }
+
+        void impulse_responses::destroy_convolver(dspu::Convolver * &c)
+        {
+            if (c == NULL)
+                return;
+            c->destroy();
+            delete c;
+            lsp_trace("Destroyed convolver %p", c);
+            c   = NULL;
+        }
+
         void impulse_responses::destroy_samples(dspu::Sample *gc_list)
         {
             // Iterate over the list and destroy each sample in the list
             while (gc_list != NULL)
             {
                 dspu::Sample *next = gc_list->gc_next();
-                gc_list->destroy();
-                delete gc_list;
-                lsp_trace("Destroyed sample %p", gc_list);
+                destroy_sample(gc_list);
                 gc_list = next;
             }
         }
@@ -180,20 +198,8 @@ namespace lsp
         void impulse_responses::destroy_file(af_descriptor_t *af)
         {
             // Destroy samples
-            if (af->pOriginal != NULL)
-            {
-                af->pOriginal->destroy();
-                delete af->pOriginal;
-                lsp_trace("Destroyed sample %p", af->pOriginal);
-                af->pOriginal = NULL;
-            }
-            if (af->pProcessed != NULL)
-            {
-                af->pProcessed->destroy();
-                delete af->pProcessed;
-                lsp_trace("Destroyed sample %p", af->pOriginal);
-                af->pProcessed = NULL;
-            }
+            destroy_sample(af->pOriginal);
+            destroy_sample(af->pProcessed);
 
             // Destroy loader
             if (af->pLoader != NULL)
@@ -208,22 +214,12 @@ namespace lsp
 
         void impulse_responses::destroy_channel(channel_t *c)
         {
-            if (c->pCurr != NULL)
-            {
-                c->pCurr->destroy();
-                delete c->pCurr;
-                c->pCurr    = NULL;
-            }
-
-            if (c->pSwap != NULL)
-            {
-                c->pSwap->destroy();
-                delete c->pSwap;
-                c->pSwap    = NULL;
-            }
+            destroy_convolver(c->pCurr);
+            destroy_convolver(c->pSwap);
 
             c->sDelay.destroy();
-            c->sPlayer.destroy(false);
+            dspu::Sample *gc_list = c->sPlayer.destroy(false);
+            destroy_samples(gc_list);
             c->sEqualizer.destroy();
         }
 
@@ -795,9 +791,6 @@ namespace lsp
 
         void impulse_responses::output_parameters()
         {
-            // Do not sync state of mesh if there are active tasks
-            bool tasks_active  = (!sConfigurator.idle()) || (has_active_loading_tasks());
-
             // Update channel activity
             for (size_t i=0; i<nChannels; ++i)
             {
@@ -809,6 +802,10 @@ namespace lsp
             for (size_t i=0; i<nChannels; ++i)
             {
                 af_descriptor_t *af     = &vFiles[i];
+
+                // Do nothing if loader task is active
+                if (!af->pLoader->idle())
+                    continue;
 
                 // Output information about the file
                 dspu::Sample *active    = vChannels[0].sPlayer.get(i);
@@ -822,7 +819,7 @@ namespace lsp
 
                 // Store file dump to mesh
                 plug::mesh_t *mesh      = af->pThumbs->buffer<plug::mesh_t>();
-                if ((mesh == NULL) || (!mesh->isEmpty()) || (!af->bSync) || (tasks_active))
+                if ((mesh == NULL) || (!mesh->isEmpty()) || (!af->bSync))
                     continue;
 
                 if (channels > 0)
@@ -852,14 +849,8 @@ namespace lsp
         {
             lsp_trace("descr = %p", descr);
 
-            // Remove swap data
-            if (descr->pOriginal != NULL)
-            {
-                descr->pOriginal->destroy();
-                delete descr->pOriginal;
-                lsp_trace("Destroyed sample %p", descr->pOriginal);
-                descr->pOriginal    = NULL;
-            }
+            // Destroy previously loaded sample
+            destroy_sample(descr->pOriginal);
 
             // Check state
             if ((descr == NULL) || (descr->pFile == NULL))
@@ -879,13 +870,8 @@ namespace lsp
             dspu::Sample *af    = new dspu::Sample();
             if (af == NULL)
                 return STATUS_NO_MEM;
-            lsp_finally {
-                if (af != NULL)
-                {
-                    af->destroy();
-                    delete af;
-                }
-            };
+            lsp_trace("Allocated sample %p", af);
+            lsp_finally { destroy_sample(af); };
 
             // Try to load file
             float convLengthMaxSeconds = meta::impulse_responses_metadata::CONV_LENGTH_MAX * 0.001f;
@@ -931,14 +917,8 @@ namespace lsp
                 // Get audio file
                 af_descriptor_t *f      = &vFiles[i];
 
-                // Destroy swap sample
-                if (f->pProcessed != NULL)
-                {
-                    f->pProcessed->destroy();
-                    delete f->pProcessed;
-                    lsp_trace("Destroyed sample %p", f->pProcessed);
-                    f->pProcessed  = NULL;
-                }
+                // Destroy previously processed sample
+                destroy_sample(f->pProcessed);
 
                 // Get sample to process
                 const dspu::Sample *af  = f->pOriginal;
@@ -949,13 +929,8 @@ namespace lsp
                 dspu::Sample *s     = new dspu::Sample();
                 if (s == NULL)
                     return STATUS_NO_MEM;
-                lsp_finally {
-                    if (s != NULL)
-                    {
-                        s->destroy();
-                        delete s;
-                    }
-                };
+                lsp_trace("Allocated sample %p", s);
+                lsp_finally { destroy_sample(s); };
 
                 // Obtain new sample parameters
                 ssize_t flen        = af->samples();
@@ -1017,13 +992,8 @@ namespace lsp
             {
                 channel_t *c    = &vChannels[i];
 
-                // Check that we need to free previous convolver
-                if (c->pSwap != NULL)
-                {
-                    c->pSwap->destroy();
-                    delete c->pSwap;
-                    c->pSwap = NULL;
-                }
+                // Destroy previously allocated convolver
+                destroy_convolver(c->pSwap);
 
                 // Check that routing has changed
                 size_t ch   = c->nSource;
@@ -1046,13 +1016,7 @@ namespace lsp
                 dspu::Convolver *cv   = new dspu::Convolver();
                 if (cv == NULL)
                     continue;
-                lsp_finally {
-                    if (cv != NULL)
-                    {
-                        cv->destroy();
-                        delete cv;
-                    }
-                };
+                lsp_finally { destroy_convolver(cv); };
 
                 // Initialize convolver
                 if (!cv->init(s->channel(track), s->length(), nRank, float((phase + i*step) & 0x7fffffff)/float(0x80000000)))

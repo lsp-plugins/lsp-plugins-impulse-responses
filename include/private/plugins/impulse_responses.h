@@ -164,10 +164,12 @@ namespace lsp
                 void                    perform_gc();
 
             protected:
+                static void             destroy_samples(dspu::Sample *gc_list);
+                static void             destroy_sample(dspu::Sample * &s);
+                static void             destroy_convolver(dspu::Convolver * &c);
                 static void             destroy_file(af_descriptor_t *af);
                 static void             destroy_channel(channel_t *c);
                 static size_t           get_fft_rank(size_t rank);
-                static void             destroy_samples(dspu::Sample *gc_list);
 
             protected:
                 IRConfigurator          sConfigurator;
