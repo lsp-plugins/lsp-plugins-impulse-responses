@@ -27,6 +27,7 @@
 					status=":ifs"
 					width.min="600"
 					height.min="128"
+					load.preview="true"
 					clipboard.head_cut="ihc"
 					clipboard.tail_cut="itc"
 					clipboard.fade_in="ifi"

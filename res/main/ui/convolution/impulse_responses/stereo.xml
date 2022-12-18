@@ -30,6 +30,7 @@
 						status=":ifs${i}"
 						width.min="600"
 						height.min="128"
+						load.preview="true"
 						clipboard.head_cut="ihc${i}"
 						clipboard.tail_cut="itc${i}"
 						clipboard.fade_in="ifi${i}"
