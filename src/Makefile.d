@@ -434,6 +434,7 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ui/ISchemaListener.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ui/PortResolver.h \
  $(LSP_RUNTIME_LIB_INC)/lsp-plug.in/expr/Expression.h \
+ $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ui/IPlayListener.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ui/ControlPort.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ui/PathPort.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ui/Factory.h \
@@ -473,6 +474,7 @@ $(LSP_PLUGINS_IMPULSE_RESPONSES_BIN)/main/ui/impulse_responses.o: \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/simple/Hyperlink.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/simple/Fader.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/simple/ProgressBar.h \
+ $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/simple/CheckBox.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/containers/Box.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/containers/Align.h \
  $(LSP_PLUGIN_FW_INC)/lsp-plug.in/plug-fw/ctl/containers/Group.h \
