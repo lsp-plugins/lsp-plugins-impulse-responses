@@ -27,7 +27,7 @@
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MAJOR       1
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MINOR       0
-#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       7
+#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       8
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION  \
     LSP_MODULE_VERSION( \
@@ -188,7 +188,7 @@ namespace lsp
             NULL,
             LSP_PLUGINS_IMPULSE_RESPONSES_VERSION,
             impulse_responses_classes,
-            E_DUMP_STATE,
+            E_DUMP_STATE | E_FILE_PREVIEW,
             impulse_responses_mono_ports,
             "convolution/impulse_responses/mono.xml",
             NULL,
@@ -210,7 +210,7 @@ namespace lsp
             NULL,
             LSP_PLUGINS_IMPULSE_RESPONSES_VERSION,
             impulse_responses_classes,
-            E_DUMP_STATE,
+            E_DUMP_STATE | E_FILE_PREVIEW,
             impulse_responses_stereo_ports,
             "convolution/impulse_responses/stereo.xml",
             NULL,
