@@ -163,7 +163,9 @@ namespace lsp
             PORTS_END
         };
 
-        static const int impulse_responses_classes[] = { C_REVERB, -1 };
+        static const int plugin_classes[]           = { C_REVERB, -1 };
+        static const int clap_features_mono[]       = { CF_AUDIO_EFFECT, CF_REVERB, CF_MONO, -1 };
+        static const int clap_features_stereo[]     = { CF_AUDIO_EFFECT, CF_REVERB, CF_STEREO, -1 };
 
         const meta::bundle_t impulse_responses_bundle =
         {
@@ -186,8 +188,10 @@ namespace lsp
             "wvwt",
             0,
             NULL,
+            LSP_CLAP_URI("impulse_responses_mono"),
             LSP_PLUGINS_IMPULSE_RESPONSES_VERSION,
-            impulse_responses_classes,
+            plugin_classes,
+            clap_features_mono,
             E_DUMP_STATE | E_FILE_PREVIEW,
             impulse_responses_mono_ports,
             "convolution/impulse_responses/mono.xml",
@@ -208,8 +212,10 @@ namespace lsp
             "1khz",
             0,
             NULL,
+            LSP_CLAP_URI("impulse_responses_stereo"),
             LSP_PLUGINS_IMPULSE_RESPONSES_VERSION,
-            impulse_responses_classes,
+            plugin_classes,
+            clap_features_stereo,
             E_DUMP_STATE | E_FILE_PREVIEW,
             impulse_responses_stereo_ports,
             "convolution/impulse_responses/stereo.xml",
