@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.15 ===
+* Updated default values for left and right processors.
 * Updated build scripts and dependencies.
 
 === 1.0.14 ===

@@ -107,8 +107,8 @@ namespace lsp
             METER("ifl" id, "Impulse length" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
             MESH("ifd" id, "Impulse file contents" label, impulse_responses_metadata::TRACKS_MAX, impulse_responses_metadata::MESH_SIZE)
 
-        #define IR_SOURCE(id, label, select) \
-            COMBO("cs" id, "Channel source" label, 0, select), \
+        #define IR_SOURCE(id, label, select, dfl) \
+            COMBO("cs" id, "Channel source" label, dfl, select), \
             AMP_GAIN100("mk" id, "Makeup gain" label, 1.0f), \
             BLINK("ca" id, "Channel activity" label), \
             CONTROL("pd" id, "Pre-delay" label, U_MSEC, impulse_responses_metadata::PREDELAY)
@@ -140,7 +140,7 @@ namespace lsp
 
             // Input controls
             IR_SAMPLE_FILE("", ""),
-            IR_SOURCE("", "", ir_source_mono),
+            IR_SOURCE("", "", ir_source_mono, 1),
             IR_EQUALIZER,
 
             PORTS_END
@@ -156,8 +156,8 @@ namespace lsp
             // Input controls
             IR_SAMPLE_FILE("0", " 1"),
             IR_SAMPLE_FILE("1", " 2"),
-            IR_SOURCE("_l", " Left", ir_source_stereo),
-            IR_SOURCE("_r", " Right", ir_source_stereo),
+            IR_SOURCE("_l", " Left", ir_source_stereo, 1),
+            IR_SOURCE("_r", " Right", ir_source_stereo, 2),
             IR_EQUALIZER,
 
             PORTS_END
