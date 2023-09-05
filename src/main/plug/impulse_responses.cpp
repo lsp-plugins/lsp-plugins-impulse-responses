@@ -771,7 +771,7 @@ namespace lsp
             for (size_t i=0; i<nChannels; ++i)
             {
                 channel_t *c            = &vChannels[i];
-                c->pActivity->set_value(c->pCurr != NULL);
+                c->pActivity->set_value((c->pCurr != NULL) ? 1.0f : 0.0f);
             }
 
             // Update indicators and meshes (if possible)
