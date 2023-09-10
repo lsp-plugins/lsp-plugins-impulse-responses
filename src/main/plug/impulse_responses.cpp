@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -31,12 +31,17 @@
 
 #define TMP_BUF_SIZE            4096
 #define CONV_RANK               10
-#define TRACE_PORT(p)           lsp_trace("  port id=%s", (p)->metadata()->id);
 
 namespace lsp
 {
     namespace plugins
     {
+        static plug::IPort *TRACE_PORT(plug::IPort *p)
+        {
+            lsp_trace("  port id=%s", (p)->metadata()->id);
+            return p;
+        }
+
         //---------------------------------------------------------------------
         // Plugin factory
         static const meta::plugin_t *plugins[] =
@@ -163,6 +168,7 @@ namespace lsp
 
         impulse_responses::~impulse_responses()
         {
+            do_destroy();
         }
 
         void impulse_responses::destroy_sample(dspu::Sample * &s)
@@ -341,35 +347,21 @@ namespace lsp
 
             lsp_trace("Binding audio ports");
             for (size_t i=0; i<nChannels; ++i)
-            {
-                TRACE_PORT(ports[port_id]);
-                vChannels[i].pIn    = ports[port_id++];
-            }
+                vChannels[i].pIn    = TRACE_PORT(ports[port_id++]);
             for (size_t i=0; i<nChannels; ++i)
-            {
-                TRACE_PORT(ports[port_id]);
-                vChannels[i].pOut   = ports[port_id++];
-            }
+                vChannels[i].pOut   = TRACE_PORT(ports[port_id++]);
 
             // Bind common ports
             lsp_trace("Binding common ports");
-            TRACE_PORT(ports[port_id]);
-            pBypass     = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pRank       = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pDry        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pWet        = ports[port_id++];
-            TRACE_PORT(ports[port_id]);
-            pOutGain    = ports[port_id++];
+            pBypass     = TRACE_PORT(ports[port_id++]);
+            pRank       = TRACE_PORT(ports[port_id++]);
+            pDry        = TRACE_PORT(ports[port_id++]);
+            pWet        = TRACE_PORT(ports[port_id++]);
+            pOutGain    = TRACE_PORT(ports[port_id++]);
 
             // Skip file selector
             if (nChannels > 1)
-            {
-                TRACE_PORT(ports[port_id]);
-                port_id++;
-            }
+                TRACE_PORT(ports[port_id++]);
 
             // Bind impulse file ports
             for (size_t i=0; i<nChannels; ++i)
@@ -379,24 +371,15 @@ namespace lsp
 
                 f->sListen.init();
 
-                TRACE_PORT(ports[port_id]);
-                f->pFile        = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pHeadCut     = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pTailCut     = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pFadeIn      = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pFadeOut     = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pListen      = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pStatus      = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pLength      = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                f->pThumbs      = ports[port_id++];
+                f->pFile        = TRACE_PORT(ports[port_id++]);
+                f->pHeadCut     = TRACE_PORT(ports[port_id++]);
+                f->pTailCut     = TRACE_PORT(ports[port_id++]);
+                f->pFadeIn      = TRACE_PORT(ports[port_id++]);
+                f->pFadeOut     = TRACE_PORT(ports[port_id++]);
+                f->pListen      = TRACE_PORT(ports[port_id++]);
+                f->pStatus      = TRACE_PORT(ports[port_id++]);
+                f->pLength      = TRACE_PORT(ports[port_id++]);
+                f->pThumbs      = TRACE_PORT(ports[port_id++]);
             }
 
             // Bind convolution ports
@@ -405,14 +388,10 @@ namespace lsp
                 lsp_trace("Binding convolution #%d ports", int(i));
                 channel_t *c    = &vChannels[i];
 
-                TRACE_PORT(ports[port_id]);
-                c->pSource      = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                c->pMakeup      = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                c->pActivity    = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                c->pPredelay    = ports[port_id++];
+                c->pSource      = TRACE_PORT(ports[port_id++]);
+                c->pMakeup      = TRACE_PORT(ports[port_id++]);
+                c->pActivity    = TRACE_PORT(ports[port_id++]);
+                c->pPredelay    = TRACE_PORT(ports[port_id++]);
             }
 
             // Bind wet processing ports
@@ -422,32 +401,28 @@ namespace lsp
             {
                 channel_t *c        = &vChannels[i];
 
-                TRACE_PORT(ports[port_id]);
-                c->pWetEq           = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                port_id++;          // Skip equalizer visibility port
-                TRACE_PORT(ports[port_id]);
-                c->pLowCut          = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                c->pLowFreq         = ports[port_id++];
+                c->pWetEq           = TRACE_PORT(ports[port_id++]);
+                TRACE_PORT(ports[port_id++]); // Skip equalizer visibility port
+                c->pLowCut          = TRACE_PORT(ports[port_id++]);
+                c->pLowFreq         = TRACE_PORT(ports[port_id++]);
 
                 for (size_t j=0; j<meta::impulse_responses_metadata::EQ_BANDS; ++j)
-                {
-                    TRACE_PORT(ports[port_id]);
-                    c->pFreqGain[j]     = ports[port_id++];
-                }
+                    c->pFreqGain[j]     = TRACE_PORT(ports[port_id++]);
 
-                TRACE_PORT(ports[port_id]);
-                c->pHighCut         = ports[port_id++];
-                TRACE_PORT(ports[port_id]);
-                c->pHighFreq        = ports[port_id++];
+                c->pHighCut         = TRACE_PORT(ports[port_id++]);
+                c->pHighFreq        = TRACE_PORT(ports[port_id++]);
 
                 port_id         = port;
             }
-
         }
 
         void impulse_responses::destroy()
+        {
+            Module::destroy();
+            do_destroy();
+        }
+
+        void impulse_responses::do_destroy()
         {
             // Perform garbage collection
             perform_gc();
@@ -796,7 +771,7 @@ namespace lsp
             for (size_t i=0; i<nChannels; ++i)
             {
                 channel_t *c            = &vChannels[i];
-                c->pActivity->set_value(c->pCurr != NULL);
+                c->pActivity->set_value((c->pCurr != NULL) ? 1.0f : 0.0f);
             }
 
             // Update indicators and meshes (if possible)
@@ -850,11 +825,15 @@ namespace lsp
         {
             lsp_trace("descr = %p", descr);
 
+            // Check state
+            if (descr == NULL)
+                return STATUS_UNKNOWN_ERR;
+
             // Destroy previously loaded sample
             destroy_sample(descr->pOriginal);
 
             // Check state
-            if ((descr == NULL) || (descr->pFile == NULL))
+            if (descr->pFile == NULL)
                 return STATUS_UNKNOWN_ERR;
 
             // Get path
@@ -1132,7 +1111,7 @@ namespace lsp
 
             v->write("pData", pData);
         }
-    } // namespace plugins
-} // namespace lsp
+    } /* namespace plugins */
+} /* namespace lsp */
 
 

@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -114,10 +114,10 @@ namespace lsp
 
                     public:
                         explicit IRLoader(impulse_responses *base, af_descriptor_t *descr);
-                        virtual ~IRLoader();
+                        virtual ~IRLoader() override;
 
                     public:
-                        virtual status_t run();
+                        virtual status_t run() override;
 
                         void        dump(dspu::IStateDumper *v) const;
                 };
@@ -129,10 +129,10 @@ namespace lsp
 
                     public:
                         explicit IRConfigurator(impulse_responses *base);
-                        virtual ~IRConfigurator();
+                        virtual ~IRConfigurator() override;
 
                     public:
-                        virtual status_t run();
+                        virtual status_t run() override;
                         void        dump(dspu::IStateDumper *v) const;
                 };
 
@@ -143,10 +143,10 @@ namespace lsp
 
                     public:
                         explicit GCTask(impulse_responses *base);
-                        virtual ~GCTask();
+                        virtual ~GCTask() override;
 
                     public:
-                        virtual status_t run();
+                        virtual status_t run() override;
 
                         void        dump(dspu::IStateDumper *v) const;
                 };
@@ -193,23 +193,26 @@ namespace lsp
 
                 uint8_t                *pData;
 
+            protected:
+                void                do_destroy();
+
             public:
                 explicit impulse_responses(const meta::plugin_t *meta);
-                virtual ~impulse_responses();
+                virtual ~impulse_responses() override;
 
-                virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports);
-                virtual void        destroy();
+                virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports) override;
+                virtual void        destroy() override;
 
             public:
-                virtual void        ui_activated();
-                virtual void        update_settings();
-                virtual void        update_sample_rate(long sr);
+                virtual void        ui_activated() override;
+                virtual void        update_settings() override;
+                virtual void        update_sample_rate(long sr) override;
 
-                virtual void        process(size_t samples);
+                virtual void        process(size_t samples) override;
 
-                virtual void        dump(dspu::IStateDumper *v) const;
+                virtual void        dump(dspu::IStateDumper *v) const override;
         };
-    } // namespace plugins
-} // namespace lsp
+    } /* namespace plugins */
+} /* namespace lsp */
 
 #endif /* PRIVATE_PLUGINS_IMPULSE_RESPONSES_H_ */
