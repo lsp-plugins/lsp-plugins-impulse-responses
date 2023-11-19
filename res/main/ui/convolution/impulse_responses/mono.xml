@@ -36,7 +36,7 @@
 
 				<void bg.color="bg" height="4" vreduce="true"/>
 
-				<grid rows="4" cols="14" bg.color="bg_schema">
+				<grid rows="4" cols="13" bg.color="bg_schema">
 					<!-- row 1 -->
 					<ui:with pad.h="6" pad.v="4" vreduce="true">
 						<label text="labels.sedit.head_cut"/>
@@ -46,11 +46,10 @@
 						<label text="labels.listen"/>
 					</ui:with>
 					<cell rows="4"><vsep bg.color="bg" pad.h="2" hreduce="true"/></cell>
-					<label text="labels.source"/>
-					<cell rows="4"><vsep bg.color="bg" pad.h="2" hreduce="true"/></cell>
-					<ui:with pad.h="6" pad.v="4" vreduce="true">
-						<label text="labels.predelay"/>
-						<label text="labels.makeup"/>
+					<label text="labels.source" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
+					<ui:with pad.v="4" vreduce="true">
+						<label pad.r="6" text="labels.predelay" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
+						<label pad.h="6" text="labels.makeup" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
 					</ui:with>
 					<cell rows="4"><vsep bg.color="bg" pad.h="2" hreduce="true"/></cell>
 					<ui:with pad.h="6" pad.v="4" vreduce="true">
@@ -62,8 +61,7 @@
 					<!-- row 2 -->
 					<ui:with bg.color="bg" pad.v="2" vreduce="true">
 						<cell cols="5"><hsep/></cell>
-						<hsep/>
-						<cell cols="2"><hsep/></cell>
+						<cell cols="3"><hsep/></cell>
 						<cell cols="3"><hsep/></cell>
 					</ui:with>
 
@@ -77,16 +75,16 @@
 
 					<cell rows="2"><button id="ils" size="32" toggle="false"/></cell>
 
-					<combo id="cs" hfill="false" pad.h="6"/>
+					<combo id="cs" hfill="false" hreduce="true" pad.h="6" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
 
-					<ui:with pad.h="6" pad.v="4">
-						<knob id="pd"/>
-						<knob id="mk"/>
+					<ui:with pad.v="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken">
+						<knob id="pd" pad.r="6" scolor=":ca and (:c  ine 0) ? 'left' : 'cycle_inactive'"/>
+						<knob id="mk" pad.h="6" scolor=":ca and (:c  ine 0) ? 'left' : 'cycle_inactive'"/>
 					</ui:with>
 
 					<ui:with pad.h="6" pad.v="4">
-						<knob id="dry"/>
-						<knob id="wet"/>
+						<knob id="dry" scolor="dry"/>
+						<knob id="wet" scolor="wet"/>
 						<knob id="g_out"/>
 					</ui:with>
 
@@ -98,14 +96,17 @@
 						<value id="ifo"/>
 					</ui:with>
 
-					<hbox fill="false" spacing="4">
-						<led id="ca" size="10" pad.b="1"/>
-						<label text="labels.active"/>
-					</hbox>
+					<ui:with bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken">
+						<hbox hfill="false" hreduce="true" spacing="4">
+							<led id="ca" size="10" pad.b="1"/>
+							<label text="labels.active"/>
+						</hbox>
+					</ui:with>
 
-					<ui:with pad.h="6" pad.b="4">
-						<value id="pd"/>
-						<value id="mk"/>
+
+						<value id="pd" pad.r="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
+						<value id="mk" pad.h="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
+						<ui:with pad.h="6" pad.b="4">
 						<value id="dry"/>
 						<value id="wet"/>
 						<value id="g_out"/>
@@ -119,9 +120,11 @@
 		<group text="groups.wet_signal_eq" visibility=":eqv" ipadding="0">
 			<grid rows="5" cols="12">
 
-				<label text="labels.flt.low_cut" pad.h="6" pad.v="4" bright="(:wpp) ? 1 : 0.5" bg.bright="(:wpp) ? 1 : :const_bg_darken"/>
+				<label text="labels.flt.low_cut" pad.h="6" pad.v="4" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
+
 				<cell rows="5"><vsep bg.color="bg" pad.h="2" hreduce="true"/></cell>
-				<ui:with pad.h="6" pad.v="4" bright="(:wpp) ? 1 : 0.5" bg.bright="(:wpp) ? 1 : :const_bg_darken">
+
+				<ui:with pad.h="6" pad.v="4" bright="(:wpp) ? 1 : 0.75" bg.bright="(:wpp) ? 1 : :const_bg_darken">
 					<label text="50"/>
 					<label text="107"/>
 					<label text="227"/>
@@ -131,33 +134,36 @@
 					<label text="labels.flt.4_7k"/>
 					<label text="labels.flt.10k"/>
 				</ui:with>
+
 				<cell rows="5">
 					<vsep bg.color="bg" pad.h="2" hreduce="true"/>
 				</cell>
-				<ui:with pad.h="6" pad.v="4" bright="(:wpp) ? 1 : 0.5" bg.bright="(:wpp) ? 1 : :const_bg_darken">
-					<label text="labels.flt.high_cut"/>
 
-					<combo id="lcm" fill="false"/>
+				<label text="labels.flt.high_cut" bright="(:wpp) and (:hcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
+
+				<combo id="lcm" fill="false" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
+
+				<ui:with pad.h="6" pad.v="4" bright="(:wpp)? 1 : 0.75" bg.bright="(:wpp) ? 1 : :const_bg_darken">
 					<ui:for id="f" first="0" last="7">
 						<cell rows="3">
 							<fader id="eq_${f}" angle="1" scolor="(:wpp) ? 'fader' : 'fader_inactive'"/>
 						</cell>
 					</ui:for>
-					<combo id="hcm" fill="false"/>
-
-					<label text="labels.frequency"/>
-					<label text="labels.frequency"/>
-
-					<knob id="lcf" scolor="(:wpp) ? 'kscale' : 'kscale_inactive'"/>
-					<knob id="hcf" scolor="(:wpp) ? 'kscale' : 'kscale_inactive'"/>
-
-					<value id="lcf"/>
-					<ui:for id="f" first="0" last="7">
-						<value width.min="32" id="eq_${f}" bright="(:wpp) ? 1 : 0.5"/>
-					</ui:for>
-					<value id="hcf"/>
 				</ui:with>
 
+				<combo id="hcm" fill="false" bright="(:wpp) and (:hcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
+
+				<ui:with pad.h="6" pad.v="4">
+					<label text="labels.frequency" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
+					<label text="labels.frequency" bright="(:wpp) and (:hcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
+					<knob id="lcf" scolor="(:wpp) and (:lcm igt 0)? 'kscale' : 'cycle_inactive'" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
+					<knob id="hcf" scolor="(:wpp) and (:hcm igt 0)? 'kscale' : 'cycle_inactive'" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
+					<value id="lcf" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
+					<ui:for id="f" first="0" last="7">
+						<value width.min="32" id="eq_${f}" bright="(:wpp) ? 1 : 0.75" bg.bright="(:wpp) ? 1 : :const_bg_darken"/>
+					</ui:for>
+					<value id="hcf" bright="(:wpp) and (:hcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
+				</ui:with>
 			</grid>
 		</group>
 	</vbox>
