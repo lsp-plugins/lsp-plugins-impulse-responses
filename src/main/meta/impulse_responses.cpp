@@ -27,7 +27,7 @@
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MAJOR       1
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MINOR       0
-#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       19
+#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       20
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION  \
     LSP_MODULE_VERSION( \
@@ -180,6 +180,7 @@ namespace lsp
         {
             "Impulsantworten Mono",
             "Impulse Responses Mono",
+            "Impulse Responses Mono",
             "IA1M",
             &developers::v_sadovnikov,
             "impulse_responses_mono",
@@ -203,6 +204,7 @@ namespace lsp
         const meta::plugin_t  impulse_responses_stereo =
         {
             "Impulsantworten Stereo",
+            "Impulse Responses Stereo",
             "Impulse Responses Stereo",
             "IA1S",
             &developers::v_sadovnikov,
