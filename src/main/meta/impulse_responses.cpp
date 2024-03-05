@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -27,7 +27,7 @@
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MAJOR       1
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MINOR       0
-#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       20
+#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       21
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION  \
     LSP_MODULE_VERSION( \
@@ -187,6 +187,8 @@ namespace lsp
             LSP_LV2_URI("impulse_responses_mono"),
             LSP_LV2UI_URI("impulse_responses_mono"),
             "wvwt",
+            LSP_VST3_UID("ia1m    wvwt"),
+            LSP_VST3UI_UID("ia1m    wvwt"),
             0,
             NULL,
             LSP_CLAP_URI("impulse_responses_mono"),
@@ -212,6 +214,8 @@ namespace lsp
             LSP_LV2_URI("impulse_responses_stereo"),
             LSP_LV2UI_URI("impulse_responses_stereo"),
             "1khz",
+            LSP_VST3_UID("ia1s    1khz"),
+            LSP_VST3UI_UID("ia1s    1khz"),
             0,
             NULL,
             LSP_CLAP_URI("impulse_responses_stereo"),
