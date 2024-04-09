@@ -397,7 +397,7 @@ namespace lsp
                 channel_t *c        = &vChannels[i];
 
                 BIND_PORT(c->pWetEq);
-                SKIP_PORT(ports[port_id++]); // Skip equalizer visibility port
+                SKIP_PORT("Equalizer visibility"); // Skip equalizer visibility port
                 BIND_PORT(c->pLowCut);
                 BIND_PORT(c->pLowFreq);
 
