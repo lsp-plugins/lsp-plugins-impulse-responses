@@ -40,6 +40,7 @@
 	</li>
 	<li><b>Dry</b> - amount of gain applied to the dry (unprocessed) signal.</li>
 	<li><b>Wet</b> - amount of gain additionally applied to the wet (processed) signal.</li>
+	<li><b>Dry/Wet</b> - the balance between unprocessed (Dry) signal and mixed signal (see Dry and Wet controls).</li>
 	<li><b>Output</b> - amount of gain additionally applied to the output signal.</li>
 </ul>
 <p><b>'Wet Signal Equalization' section</b> - visible only when <b>IR equalizer</b> parameter is turned on:</p>

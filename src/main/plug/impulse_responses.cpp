@@ -156,6 +156,7 @@ namespace lsp
             pRank           = NULL;
             pDry            = NULL;
             pWet            = NULL;
+            pDryWet         = NULL;
             pOutGain        = NULL;
 
             pData           = NULL;
@@ -350,6 +351,7 @@ namespace lsp
             BIND_PORT(pRank);
             BIND_PORT(pDry);
             BIND_PORT(pWet);
+            BIND_PORT(pDryWet);
             BIND_PORT(pOutGain);
 
             // Skip file selector
@@ -463,8 +465,12 @@ namespace lsp
                 channel_t *c        = &vChannels[i];
                 af_descriptor_t *f  = &vFiles[i];
 
-                c->fDryGain         = pDry->value() * fGain;
-                c->fWetGain         = pWet->value() * c->pMakeup->value() * fGain;
+                const float drywet  = pDryWet->value();
+                const float dry     = pDry->value() * fGain;
+                const float wet     = pWet->value() * c->pMakeup->value() * fGain;
+
+                c->fDryGain         = dry * drywet + 1.0f - drywet;
+                c->fWetGain         = wet * drywet;
 
                 // Update delay and bypass configuration
                 c->sPlayer.set_gain(fGain);
@@ -1096,6 +1102,7 @@ namespace lsp
             v->write("pRank", pRank);
             v->write("pDry", pDry);
             v->write("pWet", pWet);
+            v->write("pDryWet", pDryWet);
             v->write("pOutGain", pOutGain);
 
             v->write("pData", pData);

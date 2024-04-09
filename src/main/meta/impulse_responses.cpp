@@ -94,6 +94,7 @@ namespace lsp
             COMBO("fft", "FFT size", impulse_responses_metadata::FFT_RANK_DEFAULT, ir_fft_rank), \
             DRY_GAIN(1.0f), \
             WET_GAIN(1.0f), \
+            DRYWET(100.0f), \
             OUT_GAIN
 
         #define IR_SAMPLE_FILE(id, label)   \

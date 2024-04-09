@@ -189,6 +189,7 @@ namespace lsp
                 plug::IPort            *pRank;
                 plug::IPort            *pDry;
                 plug::IPort            *pWet;
+                plug::IPort            *pDryWet;
                 plug::IPort            *pOutGain;
 
                 uint8_t                *pData;
