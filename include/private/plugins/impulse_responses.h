@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -198,7 +198,12 @@ namespace lsp
 
             public:
                 explicit impulse_responses(const meta::plugin_t *meta);
+                impulse_responses(const impulse_responses &) = delete;
+                impulse_responses(impulse_responses &&) = delete;
                 virtual ~impulse_responses() override;
+
+                impulse_responses & operator = (const impulse_responses &) = delete;
+                impulse_responses & operator = (impulse_responses &&) = delete;
 
                 virtual void        init(plug::IWrapper *wrapper, plug::IPort **ports) override;
                 virtual void        destroy() override;
@@ -207,9 +212,7 @@ namespace lsp
                 virtual void        ui_activated() override;
                 virtual void        update_settings() override;
                 virtual void        update_sample_rate(long sr) override;
-
                 virtual void        process(size_t samples) override;
-
                 virtual void        dump(dspu::IStateDumper *v) const override;
         };
     } /* namespace plugins */
