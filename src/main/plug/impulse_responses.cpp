@@ -466,11 +466,11 @@ namespace lsp
                 af_descriptor_t *f  = &vFiles[i];
 
                 const float drywet  = pDryWet->value();
-                const float dry     = pDry->value() * fGain;
-                const float wet     = pWet->value() * c->pMakeup->value() * fGain;
+                const float dry     = pDry->value();
+                const float wet     = pWet->value() * c->pMakeup->value();
 
-                c->fDryGain         = dry * drywet + 1.0f - drywet;
-                c->fWetGain         = wet * drywet;
+                c->fDryGain         = (dry * drywet + 1.0f - drywet) * fGain;
+                c->fWetGain         = wet * drywet * fGain;
 
                 // Update delay and bypass configuration
                 c->sPlayer.set_gain(fGain);
