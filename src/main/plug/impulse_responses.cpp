@@ -465,7 +465,7 @@ namespace lsp
                 channel_t *c        = &vChannels[i];
                 af_descriptor_t *f  = &vFiles[i];
 
-                const float drywet  = pDryWet->value();
+                const float drywet  = pDryWet->value() * 0.01f;
                 const float dry     = pDry->value();
                 const float wet     = pWet->value() * c->pMakeup->value();
 
