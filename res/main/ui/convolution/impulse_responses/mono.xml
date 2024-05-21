@@ -37,7 +37,7 @@
 
 				<void bg.color="bg" height="4" vreduce="true"/>
 
-				<grid rows="4" cols="13" bg.color="bg_schema">
+				<grid rows="4" cols="14" bg.color="bg_schema">
 					<!-- row 1 -->
 					<ui:with pad.h="6" pad.v="4" vreduce="true">
 						<label text="labels.sedit.head_cut"/>
@@ -56,6 +56,7 @@
 					<ui:with pad.h="6" pad.v="4" vreduce="true">
 						<label text="labels.signal.dry"/>
 						<label text="labels.signal.wet"/>
+						<label text="labels.signal.drywet"/>
 						<label text="labels.output"/>
 					</ui:with>
 
@@ -63,7 +64,7 @@
 					<ui:with bg.color="bg" pad.v="2" vreduce="true">
 						<cell cols="5"><hsep/></cell>
 						<cell cols="3"><hsep/></cell>
-						<cell cols="3"><hsep/></cell>
+						<cell cols="4"><hsep/></cell>
 					</ui:with>
 
 					<!-- row 3 -->
@@ -86,6 +87,7 @@
 					<ui:with pad.h="6" pad.v="4">
 						<knob id="dry" scolor="dry"/>
 						<knob id="wet" scolor="wet"/>
+						<knob id="drywet" scolor="drywet"/>
 						<knob id="g_out"/>
 					</ui:with>
 
@@ -105,11 +107,12 @@
 					</ui:with>
 
 
-						<value id="pd" pad.r="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
-						<value id="mk" pad.h="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
-						<ui:with pad.h="6" pad.b="4">
+					<value id="pd" pad.r="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
+					<value id="mk" pad.h="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
+					<ui:with pad.h="6" pad.b="4">
 						<value id="dry"/>
 						<value id="wet"/>
+						<value id="drywet"/>
 						<value id="g_out"/>
 					</ui:with>
 

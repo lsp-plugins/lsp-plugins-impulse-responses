@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -28,19 +28,14 @@
 #include <lsp-plug.in/dsp-units/units.h>
 #include <lsp-plug.in/dsp-units/misc/fade.h>
 #include <lsp-plug.in/plug-fw/meta/func.h>
-
-#define TMP_BUF_SIZE            4096
-#define CONV_RANK               10
+#include <lsp-plug.in/shared/debug.h>
 
 namespace lsp
 {
     namespace plugins
     {
-        static plug::IPort *TRACE_PORT(plug::IPort *p)
-        {
-            lsp_trace("  port id=%s", (p)->metadata()->id);
-            return p;
-        }
+        static constexpr size_t TMP_BUF_SIZE        = 0x1000;
+        static constexpr size_t CONV_RANK           = 10;
 
         //---------------------------------------------------------------------
         // Plugin factory
@@ -161,6 +156,7 @@ namespace lsp
             pRank           = NULL;
             pDry            = NULL;
             pWet            = NULL;
+            pDryWet         = NULL;
             pOutGain        = NULL;
 
             pData           = NULL;
@@ -255,10 +251,9 @@ namespace lsp
             size_t thumbs_size  = meta::impulse_responses_metadata::MESH_SIZE * sizeof(float);
             size_t thumbs_perc  = thumbs_size * meta::impulse_responses_metadata::TRACKS_MAX;
             size_t alloc        = (tmp_buf_size + thumbs_perc) * nChannels;
-            pData               = new uint8_t[alloc + DEFAULT_ALIGN];
-            if (pData == NULL)
+            uint8_t *ptr        = alloc_aligned<uint8_t>(pData, alloc, DEFAULT_ALIGN);
+            if (ptr == NULL)
                 return;
-            uint8_t *ptr    = align_ptr(pData, DEFAULT_ALIGN);
 
             // Allocate channels
             vChannels       = new channel_t[nChannels];
@@ -280,8 +275,7 @@ namespace lsp
 
                 c->vIn          = NULL;
                 c->vOut         = NULL;
-                c->vBuffer      = reinterpret_cast<float *>(ptr);
-                ptr            += tmp_buf_size;
+                c->vBuffer      = advance_ptr_bytes<float>(ptr, tmp_buf_size);
 
                 c->fDryGain     = 0.0f;
                 c->fWetGain     = 1.0f;
@@ -317,8 +311,8 @@ namespace lsp
                 f->pOriginal    = NULL;
                 f->pProcessed   = NULL;
 
-                for (size_t j=0; j<meta::impulse_responses_metadata::TRACKS_MAX; ++j, ptr += thumbs_size)
-                    f->vThumbs[j]   = reinterpret_cast<float *>(ptr);
+                for (size_t j=0; j<meta::impulse_responses_metadata::TRACKS_MAX; ++j)
+                    f->vThumbs[j]   = advance_ptr_bytes<float>(ptr, thumbs_size);
 
                 f->fNorm        = 1.0f;
                 f->nStatus      = STATUS_UNSPECIFIED;
@@ -347,21 +341,22 @@ namespace lsp
 
             lsp_trace("Binding audio ports");
             for (size_t i=0; i<nChannels; ++i)
-                vChannels[i].pIn    = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pIn);
             for (size_t i=0; i<nChannels; ++i)
-                vChannels[i].pOut   = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pOut);
 
             // Bind common ports
             lsp_trace("Binding common ports");
-            pBypass     = TRACE_PORT(ports[port_id++]);
-            pRank       = TRACE_PORT(ports[port_id++]);
-            pDry        = TRACE_PORT(ports[port_id++]);
-            pWet        = TRACE_PORT(ports[port_id++]);
-            pOutGain    = TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pBypass);
+            BIND_PORT(pRank);
+            BIND_PORT(pDry);
+            BIND_PORT(pWet);
+            BIND_PORT(pDryWet);
+            BIND_PORT(pOutGain);
 
             // Skip file selector
             if (nChannels > 1)
-                TRACE_PORT(ports[port_id++]);
+                SKIP_PORT("File selector");
 
             // Bind impulse file ports
             for (size_t i=0; i<nChannels; ++i)
@@ -371,15 +366,15 @@ namespace lsp
 
                 f->sListen.init();
 
-                f->pFile        = TRACE_PORT(ports[port_id++]);
-                f->pHeadCut     = TRACE_PORT(ports[port_id++]);
-                f->pTailCut     = TRACE_PORT(ports[port_id++]);
-                f->pFadeIn      = TRACE_PORT(ports[port_id++]);
-                f->pFadeOut     = TRACE_PORT(ports[port_id++]);
-                f->pListen      = TRACE_PORT(ports[port_id++]);
-                f->pStatus      = TRACE_PORT(ports[port_id++]);
-                f->pLength      = TRACE_PORT(ports[port_id++]);
-                f->pThumbs      = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(f->pFile);
+                BIND_PORT(f->pHeadCut);
+                BIND_PORT(f->pTailCut);
+                BIND_PORT(f->pFadeIn);
+                BIND_PORT(f->pFadeOut);
+                BIND_PORT(f->pListen);
+                BIND_PORT(f->pStatus);
+                BIND_PORT(f->pLength);
+                BIND_PORT(f->pThumbs);
             }
 
             // Bind convolution ports
@@ -388,10 +383,10 @@ namespace lsp
                 lsp_trace("Binding convolution #%d ports", int(i));
                 channel_t *c    = &vChannels[i];
 
-                c->pSource      = TRACE_PORT(ports[port_id++]);
-                c->pMakeup      = TRACE_PORT(ports[port_id++]);
-                c->pActivity    = TRACE_PORT(ports[port_id++]);
-                c->pPredelay    = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(c->pSource);
+                BIND_PORT(c->pMakeup);
+                BIND_PORT(c->pActivity);
+                BIND_PORT(c->pPredelay);
             }
 
             // Bind wet processing ports
@@ -401,16 +396,16 @@ namespace lsp
             {
                 channel_t *c        = &vChannels[i];
 
-                c->pWetEq           = TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]); // Skip equalizer visibility port
-                c->pLowCut          = TRACE_PORT(ports[port_id++]);
-                c->pLowFreq         = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(c->pWetEq);
+                SKIP_PORT("Equalizer visibility"); // Skip equalizer visibility port
+                BIND_PORT(c->pLowCut);
+                BIND_PORT(c->pLowFreq);
 
                 for (size_t j=0; j<meta::impulse_responses_metadata::EQ_BANDS; ++j)
-                    c->pFreqGain[j]     = TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(c->pFreqGain[j]);
 
-                c->pHighCut         = TRACE_PORT(ports[port_id++]);
-                c->pHighFreq        = TRACE_PORT(ports[port_id++]);
+                BIND_PORT(c->pHighCut);
+                BIND_PORT(c->pHighFreq);
 
                 port_id         = port;
             }
@@ -445,11 +440,7 @@ namespace lsp
                 vFiles          = NULL;
             }
 
-            if (pData != NULL)
-            {
-                delete [] pData;
-                pData           = NULL;
-            }
+            free_aligned(pData);
         }
 
         void impulse_responses::ui_activated()
@@ -474,8 +465,12 @@ namespace lsp
                 channel_t *c        = &vChannels[i];
                 af_descriptor_t *f  = &vFiles[i];
 
-                c->fDryGain         = pDry->value() * fGain;
-                c->fWetGain         = pWet->value() * c->pMakeup->value() * fGain;
+                const float drywet  = pDryWet->value() * 0.01f;
+                const float dry     = pDry->value();
+                const float wet     = pWet->value() * c->pMakeup->value();
+
+                c->fDryGain         = (dry * drywet + 1.0f - drywet) * fGain;
+                c->fWetGain         = wet * drywet * fGain;
 
                 // Update delay and bypass configuration
                 c->sPlayer.set_gain(fGain);
@@ -1107,6 +1102,7 @@ namespace lsp
             v->write("pRank", pRank);
             v->write("pDry", pDry);
             v->write("pWet", pWet);
+            v->write("pDryWet", pDryWet);
             v->write("pOutGain", pOutGain);
 
             v->write("pData", pData);

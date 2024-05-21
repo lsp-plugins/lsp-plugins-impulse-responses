@@ -27,7 +27,7 @@
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MAJOR       1
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MINOR       0
-#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       21
+#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       22
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION  \
     LSP_MODULE_VERSION( \
@@ -94,6 +94,7 @@ namespace lsp
             COMBO("fft", "FFT size", impulse_responses_metadata::FFT_RANK_DEFAULT, ir_fft_rank), \
             DRY_GAIN(1.0f), \
             WET_GAIN(1.0f), \
+            DRYWET(100.0f), \
             OUT_GAIN
 
         #define IR_SAMPLE_FILE(id, label)   \

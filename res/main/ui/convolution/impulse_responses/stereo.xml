@@ -73,7 +73,7 @@
 
 				<void bg.color="bg" height="4" vreduce="true"/>
 
-				<grid rows="3" cols="11" bg.color="bg_schema">
+				<grid rows="3" cols="12" bg.color="bg_schema">
 					<!-- row 1 -->
 					<ui:with bright=":ca_l and (:cs_l ine 0) ? 1 : 0.75" bg.bright=":ca_l and (:cs_l ine 0) ? 1 : :const_bg_darken">
 						<label text="labels.source"/>
@@ -94,6 +94,7 @@
 					<ui:with pad.h="6" pad.v="4" vreduce="true">
 						<label text="labels.signal.dry"/>
 						<label text="labels.signal.wet"/>
+						<label text="labels.signal.drywet"/>
 						<label text="labels.output"/>
 					</ui:with>
 
@@ -116,6 +117,7 @@
 					<ui:with pad.h="6" pad.v="4">
 						<knob id="dry" scolor="dry"/>
 						<knob id="wet" scolor="wet"/>
+						<knob id="drywet" scolor="drywet"/>
 						<knob id="g_out"/>
 					</ui:with>
 
@@ -143,6 +145,7 @@
 					<ui:with pad.h="6" pad.b="4">
 						<value id="dry"/>
 						<value id="wet"/>
+						<value id="drywet"/>
 						<value id="g_out"/>
 					</ui:with>
 
