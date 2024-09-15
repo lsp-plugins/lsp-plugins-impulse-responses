@@ -37,9 +37,10 @@
 
 				<void bg.color="bg" height="4" vreduce="true"/>
 
-				<grid rows="4" cols="14" bg.color="bg_schema">
+				<grid rows="4" cols="15" bg.color="bg_schema">
 					<!-- row 1 -->
 					<ui:with pad.h="6" pad.v="4" vreduce="true">
+						<label text="labels.sedit.reverse"/>
 						<label text="labels.sedit.head_cut"/>
 						<label text="labels.sedit.tail_cut"/>
 						<label text="labels.sedit.fade_in"/>
@@ -62,12 +63,14 @@
 
 					<!-- row 2 -->
 					<ui:with bg.color="bg" pad.v="2" vreduce="true">
-						<cell cols="5"><hsep/></cell>
+						<cell cols="6"><hsep/></cell>
 						<cell cols="3"><hsep/></cell>
 						<cell cols="4"><hsep/></cell>
 					</ui:with>
 
 					<!-- row 3 -->
+					<cell rows="2"><button id="irv" size="32" toggle="false"/></cell>
+					
 					<ui:with pad.h="6" pad.v="4">
 						<knob id="ihc" size="20"/>
 						<knob id="itc" size="20"/>

@@ -317,6 +317,7 @@ namespace lsp
                 f->fNorm        = 1.0f;
                 f->nStatus      = STATUS_UNSPECIFIED;
                 f->bSync        = true;
+                f->bReverse     = false;
                 f->fHeadCut     = 0.0f;
                 f->fTailCut     = 0.0f;
                 f->fFadeIn      = 0.0f;
@@ -331,6 +332,7 @@ namespace lsp
                 f->pFadeIn      = NULL;
                 f->pFadeOut     = NULL;
                 f->pListen      = NULL;
+                f->pReverse     = NULL;
                 f->pStatus      = NULL;
                 f->pLength      = NULL;
                 f->pThumbs      = NULL;
@@ -372,6 +374,7 @@ namespace lsp
                 BIND_PORT(f->pFadeIn);
                 BIND_PORT(f->pFadeOut);
                 BIND_PORT(f->pListen);
+                BIND_PORT(f->pReverse);
                 BIND_PORT(f->pStatus);
                 BIND_PORT(f->pLength);
                 BIND_PORT(f->pThumbs);
@@ -482,15 +485,18 @@ namespace lsp
                 float tail_cut      = f->pTailCut->value();
                 float fade_in       = f->pFadeIn->value();
                 float fade_out      = f->pFadeOut->value();
+                bool reverse        = f->pReverse->value() >= 0.5f;
                 if ((f->fHeadCut != head_cut) ||
                     (f->fTailCut != tail_cut) ||
                     (f->fFadeIn  != fade_in ) ||
-                    (f->fFadeOut != fade_out))
+                    (f->fFadeOut != fade_out) ||
+                    (f->bReverse != reverse))
                 {
                     f->fHeadCut         = head_cut;
                     f->fTailCut         = tail_cut;
                     f->fFadeIn          = fade_in;
                     f->fFadeOut         = fade_out;
+                    f->bReverse         = reverse;
                     nReconfigReq        ++;
                 }
 
@@ -932,7 +938,13 @@ namespace lsp
                     const float *src = af->channel(i);
 
                     // Copy sample data and apply fading
-                    dspu::fade_in(dst, &src[head_cut], dspu::millis_to_samples(fSampleRate, f->fFadeIn), fsamples);
+                    if (f->bReverse)
+                    {
+                        dsp::reverse2(dst, &src[tail_cut], fsamples);
+                        dspu::fade_in(dst, dst, dspu::millis_to_samples(fSampleRate, f->fFadeIn), fsamples);
+                    }
+                    else
+                        dspu::fade_in(dst, &src[head_cut], dspu::millis_to_samples(fSampleRate, f->fFadeIn), fsamples);
                     dspu::fade_out(dst, dst, dspu::millis_to_samples(fSampleRate, f->fFadeOut), fsamples);
 
                     // Now render thumbnail
@@ -1068,6 +1080,7 @@ namespace lsp
                         v->write("fNorm", af->fNorm);
                         v->write("nStatus", af->nStatus);
                         v->write("bSync", af->bSync);
+                        v->write("bReverse", af->bReverse);
 
                         v->write("fHeadCut", af->fHeadCut);
                         v->write("fTailCut", af->fTailCut);
@@ -1082,6 +1095,7 @@ namespace lsp
                         v->write("pFadeIn", af->pFadeIn);
                         v->write("pFadeOut", af->pFadeOut);
                         v->write("pListen", af->pListen);
+                        v->write("pReverse", af->pReverse);
                         v->write("pStatus", af->pStatus);
                         v->write("pLength", af->pLength);
                         v->write("pThumbs", af->pThumbs);
