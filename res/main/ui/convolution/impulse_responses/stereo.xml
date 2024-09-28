@@ -17,27 +17,40 @@
 				<!-- File editor -->
 
 				<ui:for id="i" first="0" last="1">
-					<asample
-						expand="true"
-						id="ifn${i}"
-						mesh_id="ifd${i}"
-						path.id="_ui_dlg_ir_path"
-						ftype.id="_ui_dlg_ir_ftype"
-						hcut=":ihc${i}"
-						tcut=":itc${i}"
-						fadein=":ifi${i}"
-						fadeout=":ifo${i}"
-						length=":ifl${i}"
-						status=":ifs${i}"
-						width.min="600"
-						height.min="128"
-						load.preview="true"
-						clipboard.head_cut="ihc${i}"
-						clipboard.tail_cut="itc${i}"
-						clipboard.fade_in="ifi${i}"
-						clipboard.fade_out="ifo${i}"
-						format="audio_lspc,audio,all"
-						visibility=":fsel ieq ${i}"/>
+					<grid rows="3" cols="3" expand="true" visibility=":fsel ieq ${i}">
+						<cell rows="3">
+							<asample
+								expand="true"
+								id="ifn${i}"
+								mesh_id="ifd${i}"
+								path.id="_ui_dlg_ir_path"
+								ftype.id="_ui_dlg_ir_ftype"
+								hcut=":ihc${i}"
+								tcut=":itc${i}"
+								fadein=":ifi${i}"
+								fadeout=":ifo${i}"
+								length=":ifl${i}"
+								status=":ifs${i}"
+								width.min="600"
+								height.min="128"
+								load.preview="true"
+								clipboard.head_cut="ihc${i}"
+								clipboard.tail_cut="itc${i}"
+								clipboard.fade_in="ifi${i}"
+								clipboard.fade_out="ifo${i}"
+								format="audio_lspc,audio,all" />
+						</cell>
+						
+						<anavigator id="ifn${i}" text="icons.playback.play_reverse" action="previous" />
+						<anavigator id="ifn${i}" text="icons.playback.play" action="next" />
+						
+						<anavigator id="ifn${i}" text="icons.playback.backward" action="rewind" />
+						<anavigator id="ifn${i}" text="icons.playback.forward" action="fast_forward" />
+						
+						<anavigator id="ifn${i}" text="icons.playback.begin" action="first" />
+						<anavigator id="ifn${i}" text="icons.playback.end" action="last" />
+						
+					</grid>
 				</ui:for>
 
 				<void bg.color="bg" pad.v="2" vreduce="true"/>
