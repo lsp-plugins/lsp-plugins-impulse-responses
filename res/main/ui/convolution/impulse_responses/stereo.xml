@@ -17,8 +17,8 @@
 				<!-- File editor -->
 
 				<ui:for id="i" first="0" last="1">
-					<grid rows="3" cols="3" expand="true" visibility=":fsel ieq ${i}">
-						<cell rows="3">
+					<grid rows="2" cols="7" expand="true" visibility=":fsel ieq ${i}">
+						<cell rows="2">
 							<asample
 								expand="true"
 								id="ifn${i}"
@@ -41,13 +41,15 @@
 								format="audio_lspc,audio,all" />
 						</cell>
 						
-						<anavigator id="ifn${i}" text="icons.playback.play_reverse" action="previous" />
-						<anavigator id="ifn${i}" text="icons.playback.play" action="next" />
-						
-						<anavigator id="ifn${i}" text="icons.playback.backward" action="rewind" />
-						<anavigator id="ifn${i}" text="icons.playback.forward" action="fast_forward" />
+						<cell cols="6">
+							<afolder id="ifn${i}" vexpand="true" width.min="192" height.min="192" />
+						</cell>
 						
 						<anavigator id="ifn${i}" text="icons.playback.begin" action="first" />
+						<anavigator id="ifn${i}" text="icons.playback.backward" action="rewind" />
+						<anavigator id="ifn${i}" text="icons.playback.play_reverse" action="previous" />
+						<anavigator id="ifn${i}" text="icons.playback.play" action="next" />
+						<anavigator id="ifn${i}" text="icons.playback.forward" action="fast_forward" />
 						<anavigator id="ifn${i}" text="icons.playback.end" action="last" />
 						
 					</grid>
