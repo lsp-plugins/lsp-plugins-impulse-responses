@@ -16,44 +16,44 @@
 			<vbox>
 				<!-- File editor -->
 
-				<ui:for id="i" first="0" last="1">
-					<grid rows="2" cols="7" expand="true" visibility=":fsel ieq ${i}">
-						<cell rows="2">
-							<asample
-								expand="true"
-								id="ifn${i}"
-								mesh_id="ifd${i}"
-								path.id="_ui_dlg_ir_path"
-								ftype.id="_ui_dlg_ir_ftype"
-								hcut=":ihc${i}"
-								tcut=":itc${i}"
-								fadein=":ifi${i}"
-								fadeout=":ifo${i}"
-								length=":ifl${i}"
-								status=":ifs${i}"
-								width.min="600"
-								height.min="128"
-								load.preview="true"
-								clipboard.head_cut="ihc${i}"
-								clipboard.tail_cut="itc${i}"
-								clipboard.fade_in="ifi${i}"
-								clipboard.fade_out="ifo${i}"
-								format="audio_lspc,audio,all" />
-						</cell>
-						
-						<cell cols="6">
-							<afolder id="ifn${i}" vexpand="true" width.min="192" height.min="192" />
-						</cell>
-						
-						<anavigator id="ifn${i}" text="icons.playback.begin" action="first" />
-						<anavigator id="ifn${i}" text="icons.playback.backward" action="rewind" />
-						<anavigator id="ifn${i}" text="icons.playback.play_reverse" action="previous" />
-						<anavigator id="ifn${i}" text="icons.playback.play" action="next" />
-						<anavigator id="ifn${i}" text="icons.playback.forward" action="fast_forward" />
-						<anavigator id="ifn${i}" text="icons.playback.end" action="last" />
-						
-					</grid>
-				</ui:for>
+				<hbox width.min="600" height.min="256">
+					<ui:for id="i" first="0" last="1">
+						<asample
+							expand="true"
+							id="ifn${i}"
+							mesh_id="ifd${i}"
+							path.id="_ui_dlg_ir_path"
+							ftype.id="_ui_dlg_ir_ftype"
+							hcut=":ihc${i}"
+							tcut=":itc${i}"
+							fadein=":ifi${i}"
+							fadeout=":ifo${i}"
+							length=":ifl${i}"
+							status=":ifs${i}"
+							load.preview="true"
+							clipboard.head_cut="ihc${i}"
+							clipboard.tail_cut="itc${i}"
+							clipboard.fade_in="ifi${i}"
+							clipboard.fade_out="ifo${i}"
+							format="audio_lspc,audio,all"
+							visibility=":fsel ieq ${i}" />
+							
+						<vbox vexpand="true" visibility="(:fsel ieq ${i}) and (:ifs${i} ieq 0)">
+							<afolder id="ifn${i}" expand="true" width.min="192" />
+							
+							<ui:with fill="true">
+								<hbox homogeneous="true">
+									<anavigator id="ifn${i}" text="icons.navigation.first" action="first" />
+									<anavigator id="ifn${i}" text="icons.navigation.previous" action="previous" />
+									<anavigator id="ifn${i}" text="icons.random.dice" action="random" />
+									<anavigator id="ifn${i}" text="icons.navigation.next" action="next" />
+									<anavigator id="ifn${i}" text="icons.navigation.last" action="last" />
+									<anavigator id="ifn${i}" text="icons.actions.cancel" action="clear" />
+								</hbox>
+							</ui:with>
+						</vbox>
+					</ui:for>
+				</hbox>
 
 				<void bg.color="bg" pad.v="2" vreduce="true"/>
 
