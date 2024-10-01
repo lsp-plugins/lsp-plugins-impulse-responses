@@ -14,7 +14,7 @@
 			<vbox>
 				<!-- File editor -->
 
-				<hbox width.min="750" height.min="256">
+				<hbox width.min="803" height.min="256">
 					<asample
 						expand="true"
 						id="ifn"
@@ -38,7 +38,7 @@
 
 					<void bg.color="bg_graph" pad.h="2" hreduce="true"/>
 
-					<vbox vexpand="true" visibility="(:ifs ieq 0)">
+					<vbox vexpand="true" visibility="(:ifs ine 1)">
 						<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
 						<afolder id="ifn" expand="true" width.min="199"/>
 						<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
