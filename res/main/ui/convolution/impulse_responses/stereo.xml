@@ -38,7 +38,7 @@
 							format="audio_lspc,audio,all"
 							visibility=":fsel ieq ${i}"/>
 
-						<void bg.color="bg_graph" pad.h="2" hreduce="true" visibility=":fsel ieq ${i}"/>
+						<void bg.color="bg_graph" pad.h="2" hreduce="true" visibility="(:fsel ieq ${i}) and (:ifs${i} ieq 0)"/>
 
 						<vbox vexpand="true" visibility="(:fsel ieq ${i}) and (:ifs${i} ieq 0)">
 							<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
