@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.25 ===
+* Added directory contents view and navigation of currently loaded sample.
 * Added Reverse button for impulse response.
 * Updated build scripts and dependencies.
 
