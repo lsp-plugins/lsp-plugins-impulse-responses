@@ -16,7 +16,7 @@
 			<vbox>
 				<!-- File editor -->
 
-				<hbox width.min="600" height.min="256">
+				<hbox width.min="750" height.min="256">
 					<ui:for id="i" first="0" last="1">
 						<asample
 							expand="true"
@@ -36,19 +36,29 @@
 							clipboard.fade_in="ifi${i}"
 							clipboard.fade_out="ifo${i}"
 							format="audio_lspc,audio,all"
-							visibility=":fsel ieq ${i}" />
-							
+							visibility=":fsel ieq ${i}"/>
+
+						<void bg.color="bg_graph" pad.h="2" hreduce="true" visibility=":fsel ieq ${i}"/>
+
 						<vbox vexpand="true" visibility="(:fsel ieq ${i}) and (:ifs${i} ieq 0)">
-							<afolder id="ifn${i}" expand="true" width.min="192" />
-							
+							<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
+							<afolder id="ifn${i}" expand="true" width.min="199"/>
+							<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
+
 							<ui:with fill="true">
-								<hbox homogeneous="true">
-									<anavigator id="ifn${i}" text="icons.navigation.first" action="first" />
-									<anavigator id="ifn${i}" text="icons.navigation.previous" action="previous" />
-									<anavigator id="ifn${i}" text="icons.random.dice" action="random" />
-									<anavigator id="ifn${i}" text="icons.navigation.next" action="next" />
-									<anavigator id="ifn${i}" text="icons.navigation.last" action="last" />
-									<anavigator id="ifn${i}" text="icons.actions.cancel" action="clear" />
+								<hbox pad.h="6" pad.v="4" spacing="4" bg.color="bg_schema">
+									<ui:with height="22">
+										<anavigator id="ifn${i}" text="icons.navigation_big.first_alt" action="first"/>
+										<anavigator id="ifn${i}" text="icons.navigation_big.last_alt" action="last"/>
+										<void hexpand="true"/>
+										<anavigator id="ifn${i}" text="icons.navigation_big.previous" action="previous"/>
+										<anavigator id="ifn${i}" text="icons.navigation_big.next" action="next"/>
+										<void hexpand="true"/>
+
+										<anavigator id="ifn${i}" text="icons.random.dice_fill" action="random"/>
+										<void hexpand="true"/>
+										<anavigator id="ifn${i}" text="icons.actions.cancel_alt" action="clear"/>
+									</ui:with>
 								</hbox>
 							</ui:with>
 						</vbox>
