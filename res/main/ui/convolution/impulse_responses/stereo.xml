@@ -16,35 +16,61 @@
 			<vbox>
 				<!-- File editor -->
 
-				<ui:for id="i" first="0" last="1">
-					<asample
-						expand="true"
-						id="ifn${i}"
-						mesh_id="ifd${i}"
-						path.id="_ui_dlg_ir_path"
-						ftype.id="_ui_dlg_ir_ftype"
-						hcut=":ihc${i}"
-						tcut=":itc${i}"
-						fadein=":ifi${i}"
-						fadeout=":ifo${i}"
-						length=":ifl${i}"
-						status=":ifs${i}"
-						width.min="600"
-						height.min="128"
-						load.preview="true"
-						clipboard.head_cut="ihc${i}"
-						clipboard.tail_cut="itc${i}"
-						clipboard.fade_in="ifi${i}"
-						clipboard.fade_out="ifo${i}"
-						format="audio_lspc,audio,all"
-						visibility=":fsel ieq ${i}"/>
-				</ui:for>
+				<hbox width.min="803" height.min="256">
+					<ui:for id="i" first="0" last="1">
+						<asample
+							expand="true"
+							id="ifn${i}"
+							mesh_id="ifd${i}"
+							path.id="_ui_dlg_ir_path"
+							ftype.id="_ui_dlg_ir_ftype"
+							hcut=":ihc${i}"
+							tcut=":itc${i}"
+							fadein=":ifi${i}"
+							fadeout=":ifo${i}"
+							length=":ifl${i}"
+							status=":ifs${i}"
+							load.preview="true"
+							clipboard.head_cut="ihc${i}"
+							clipboard.tail_cut="itc${i}"
+							clipboard.fade_in="ifi${i}"
+							clipboard.fade_out="ifo${i}"
+							format="audio_lspc,audio,all"
+							visibility=":fsel ieq ${i}"/>
+
+						<void bg.color="bg_graph" pad.h="2" hreduce="true" visibility="(:fsel ieq ${i}) and (:ifs${i} ine 1)"/>
+
+						<vbox vexpand="true" visibility="(:fsel ieq ${i}) and (:ifs${i} ine 1)">
+							<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
+							<afolder id="ifn${i}" expand="true" width.min="199"/>
+							<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
+
+							<ui:with fill="true">
+								<hbox pad.h="6" pad.v="4" spacing="4" bg.color="bg_schema">
+									<ui:with height="22">
+										<anavigator id="ifn${i}" text="icons.navigation_big.first_alt" action="first"/>
+										<anavigator id="ifn${i}" text="icons.navigation_big.last_alt" action="last"/>
+										<void hexpand="true"/>
+										<anavigator id="ifn${i}" text="icons.navigation_big.previous" action="previous"/>
+										<anavigator id="ifn${i}" text="icons.navigation_big.next" action="next"/>
+										<void hexpand="true"/>
+
+										<anavigator id="ifn${i}" text="icons.random.dice_fill" action="random"/>
+										<void hexpand="true"/>
+										<anavigator id="ifn${i}" text="icons.actions.cancel_alt" action="clear"/>
+									</ui:with>
+								</hbox>
+							</ui:with>
+						</vbox>
+					</ui:for>
+				</hbox>
 
 				<void bg.color="bg" pad.v="2" vreduce="true"/>
 
 				<ui:for id="i" first="0" last="1">
-					<grid rows="4" cols="5" bg.color="bg_schema" visibility=":fsel ieq ${i}">
+					<grid rows="4" cols="6" bg.color="bg_schema" visibility=":fsel ieq ${i}">
 						<ui:with pad.h="6" pad.v="4" vreduce="true">
+							<label text="labels.sedit.reverse"/>
 							<label text="labels.sedit.head_cut"/>
 							<label text="labels.sedit.tail_cut"/>
 							<label text="labels.sedit.fade_in"/>
@@ -52,9 +78,10 @@
 							<label text="labels.listen"/>
 						</ui:with>
 
-						<cell cols="5"><hsep bg.color="bg" pad.v="2" vreduce="true"/></cell>
+						<cell cols="6"><hsep bg.color="bg" pad.v="2" vreduce="true"/></cell>
 
 						<ui:with pad.h="6" pad.v="4">
+							<cell rows="2"><button id="irv${i}" size="32" toggle="false"/></cell>
 							<knob id="ihc${i}" size="20"/>
 							<knob id="itc${i}" size="20"/>
 							<knob id="ifi${i}" size="20" scolor="fade_in"/>

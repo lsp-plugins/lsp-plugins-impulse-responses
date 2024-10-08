@@ -54,6 +54,7 @@ namespace lsp
                     float               fNorm;          // Norming factor
                     status_t            nStatus;
                     bool                bSync;          // Synchronize file
+                    bool                bReverse;       // Reverse impulse response
 
                     float               fHeadCut;
                     float               fTailCut;
@@ -68,6 +69,7 @@ namespace lsp
                     plug::IPort        *pFadeIn;
                     plug::IPort        *pFadeOut;
                     plug::IPort        *pListen;
+                    plug::IPort        *pReverse;       // Reverse impulse response
                     plug::IPort        *pStatus;        // Status of file loading
                     plug::IPort        *pLength;        // Length of file
                     plug::IPort        *pThumbs;        // Thumbnails of file

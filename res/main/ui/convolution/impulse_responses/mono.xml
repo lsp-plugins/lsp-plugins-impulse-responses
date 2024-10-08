@@ -14,32 +14,60 @@
 			<vbox>
 				<!-- File editor -->
 
-				<asample
-					expand="true"
-					id="ifn"
-					mesh_id="ifd"
-					path.id="_ui_dlg_ir_path"
-					ftype.id="_ui_dlg_ir_ftype"
-					hcut=":ihc"
-					tcut=":itc"
-					fadein=":ifi"
-					fadeout=":ifo"
-					length=":ifl"
-					status=":ifs"
-					width.min="600"
-					height.min="128"
-					load.preview="true"
-					clipboard.head_cut="ihc"
-					clipboard.tail_cut="itc"
-					clipboard.fade_in="ifi"
-					clipboard.fade_out="ifo"
-					format="audio_lspc,audio,all"/>
+				<hbox width.min="803" height.min="256">
+					<asample
+						expand="true"
+						id="ifn"
+						mesh_id="ifd"
+						path.id="_ui_dlg_ir_path"
+						ftype.id="_ui_dlg_ir_ftype"
+						hcut=":ihc"
+						tcut=":itc"
+						fadein=":ifi"
+						fadeout=":ifo"
+						length=":ifl"
+						status=":ifs"
+						width.min="600"
+						height.min="128"
+						load.preview="true"
+						clipboard.head_cut="ihc"
+						clipboard.tail_cut="itc"
+						clipboard.fade_in="ifi"
+						clipboard.fade_out="ifo"
+						format="audio_lspc,audio,all"/>
+
+					<void bg.color="bg_graph" pad.h="2" hreduce="true"/>
+
+					<vbox vexpand="true" visibility="(:ifs ine 1)">
+						<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
+						<afolder id="ifn" expand="true" width.min="199"/>
+						<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
+
+						<ui:with fill="true">
+							<hbox pad.h="6" pad.v="4" spacing="4" bg.color="bg_schema">
+								<ui:with height="22">
+									<anavigator id="ifn" text="icons.navigation_big.first_alt" action="first"/>
+									<anavigator id="ifn" text="icons.navigation_big.last_alt" action="last"/>
+									<void hexpand="true"/>
+									<anavigator id="ifn" text="icons.navigation_big.previous" action="previous"/>
+									<anavigator id="ifn" text="icons.navigation_big.next" action="next"/>
+									<void hexpand="true"/>
+
+									<anavigator id="ifn" text="icons.random.dice_fill" action="random"/>
+									<void hexpand="true"/>
+									<anavigator id="ifn" text="icons.actions.cancel_alt" action="clear"/>
+								</ui:with>
+							</hbox>
+						</ui:with>
+					</vbox>
+				</hbox>
 
 				<void bg.color="bg" height="4" vreduce="true"/>
 
-				<grid rows="4" cols="14" bg.color="bg_schema">
+				<grid rows="4" cols="15" bg.color="bg_schema">
 					<!-- row 1 -->
 					<ui:with pad.h="6" pad.v="4" vreduce="true">
+						<label text="labels.sedit.reverse"/>
 						<label text="labels.sedit.head_cut"/>
 						<label text="labels.sedit.tail_cut"/>
 						<label text="labels.sedit.fade_in"/>
@@ -62,12 +90,14 @@
 
 					<!-- row 2 -->
 					<ui:with bg.color="bg" pad.v="2" vreduce="true">
-						<cell cols="5"><hsep/></cell>
+						<cell cols="6"><hsep/></cell>
 						<cell cols="3"><hsep/></cell>
 						<cell cols="4"><hsep/></cell>
 					</ui:with>
 
 					<!-- row 3 -->
+					<cell rows="2"><button id="irv" size="32" toggle="false"/></cell>
+
 					<ui:with pad.h="6" pad.v="4">
 						<knob id="ihc" size="20"/>
 						<knob id="itc" size="20"/>
@@ -105,7 +135,6 @@
 							<label text="labels.active"/>
 						</hbox>
 					</ui:with>
-
 
 					<value id="pd" pad.r="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
 					<value id="mk" pad.h="6" pad.b="4" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
