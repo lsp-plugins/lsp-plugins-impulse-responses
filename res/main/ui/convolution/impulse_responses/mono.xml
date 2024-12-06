@@ -105,7 +105,14 @@
 						<knob id="ifo" size="20" scolor="fade_out"/>
 					</ui:with>
 
-					<cell rows="2"><button id="ils" size="32" toggle="false"/></cell>
+					<cell rows="2">
+						<hbox fill="false">
+							<ui:with font.name="lsp-icons" font.size="16" size="32" ui:inject="Button_cyan" toggle="false">
+								<button id="ils" text="icons.playback.play" />
+								<button id="ilc" text="icons.playback.stop" />
+							</ui:with>
+						</hbox>
+					</cell>
 
 					<combo id="cs" hfill="false" hreduce="true" pad.h="6" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
 

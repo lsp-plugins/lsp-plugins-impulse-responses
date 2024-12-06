@@ -61,6 +61,7 @@ namespace lsp
 
             static constexpr size_t MESH_SIZE               = 600;      // Maximum mesh size
             static constexpr size_t TRACKS_MAX              = 2;        // Maximum tracks per mesh/sample
+            static constexpr size_t FILES_MAX               = 2;        // Maximum number of files
 
             static constexpr size_t FFT_RANK_MIN            = 9;        // Minimum FFT rank
 

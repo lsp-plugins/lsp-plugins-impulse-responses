@@ -86,7 +86,14 @@
 							<knob id="itc${i}" size="20"/>
 							<knob id="ifi${i}" size="20" scolor="fade_in"/>
 							<knob id="ifo${i}" size="20" scolor="fade_out"/>
-							<cell rows="2"><button id="ils${i}" size="32" toggle="false"/></cell>
+							<cell rows="2">
+								<hbox fill="false">
+									<ui:with font.name="lsp-icons" font.size="16" size="32" ui:inject="Button_cyan" toggle="false">
+										<button id="ils${i}" text="icons.playback.play" />
+										<button id="ilc${i}" text="icons.playback.stop" />
+									</ui:with>
+								</hbox>
+							</cell>
 						</ui:with>
 
 						<ui:with pad.h="6" pad.b="4" width.min="48" sline="true">
