@@ -1067,6 +1067,8 @@ namespace lsp
                         v->write_object("sDelay", &c->sDelay);
                         v->write_object("sPlayer", &c->sPlayer);
                         v->write_object("sEqualizer", &c->sEqualizer);
+                        v->write_object_array("vPlaybacks", c->vPlaybacks, meta::impulse_responses_metadata::FILES_MAX);
+
                         v->write_object("pCurr", c->pCurr);
                         v->write_object("pSwap", c->pSwap);
 
