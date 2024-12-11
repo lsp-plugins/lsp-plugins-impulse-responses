@@ -97,7 +97,7 @@
 
 					<!-- row 3 -->
 					<cell rows="2">
-						<button id="irv" bg.color="bg_schema" font.size="12" size="32" ui:inject="Button_cyan" font.name="lsp-icons" text="icons.actions.reverse"/>
+						<button id="irv" bg.color="bg_schema" font.size="14" size="32" ui:inject="Button_cyan" font.name="lsp-icons" text="icons.actions.reverse"/>
 					</cell>
 
 					<ui:with pad.h="6" pad.v="4">
