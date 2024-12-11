@@ -81,16 +81,18 @@
 						<cell cols="6"><hsep bg.color="bg" pad.v="2" vreduce="true"/></cell>
 
 						<ui:with pad.h="6" pad.v="4">
-							<cell rows="2"><button id="irv${i}" size="32" toggle="false"/></cell>
+							<cell rows="2">
+								<button id="irv${i}" bg.color="bg_schema" font.size="12" size="32" ui:inject="Button_cyan" font.name="lsp-icons" text="icons.actions.reverse"/>
+							</cell>
 							<knob id="ihc${i}" size="20"/>
 							<knob id="itc${i}" size="20"/>
 							<knob id="ifi${i}" size="20" scolor="fade_in"/>
 							<knob id="ifo${i}" size="20" scolor="fade_out"/>
 							<cell rows="2">
 								<hbox fill="false">
-									<ui:with font.name="lsp-icons" font.size="16" size="32" ui:inject="Button_cyan" toggle="false">
-										<button id="ils${i}" text="icons.playback.play" />
-										<button id="ilc${i}" text="icons.playback.stop" />
+									<ui:with font.name="lsp-icons" font.size="10" size="32" ui:inject="Button_cyan" toggle="false">
+										<button id="ils${i}" text="icons.playback_big.play"/>
+										<button id="ilc${i}" text="icons.playback_big.stop"/>
 									</ui:with>
 								</hbox>
 							</cell>
