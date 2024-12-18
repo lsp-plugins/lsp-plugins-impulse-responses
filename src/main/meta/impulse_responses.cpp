@@ -27,7 +27,7 @@
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MAJOR       1
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MINOR       0
-#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       26
+#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       27
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION  \
     LSP_MODULE_VERSION( \
@@ -103,7 +103,8 @@ namespace lsp
             CONTROL("itc" id, "Tail cut" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
             CONTROL("ifi" id, "Fade in" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
             CONTROL("ifo" id, "Fade out" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
-            TRIGGER("ils" id, "Impulse listen" label), \
+            TRIGGER("ils" id, "Impulse preview listen" label), \
+            TRIGGER("ilc" id, "Impulse preview stop" label), \
             SWITCH("irv" id, "Impulse reverse" label, 0.0f), \
             STATUS("ifs" id, "Load status" label), \
             METER("ifl" id, "Impulse length" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \

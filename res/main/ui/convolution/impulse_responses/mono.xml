@@ -96,7 +96,9 @@
 					</ui:with>
 
 					<!-- row 3 -->
-					<cell rows="2"><button id="irv" size="32" toggle="false"/></cell>
+					<cell rows="2">
+						<button id="irv" bg.color="bg_schema" font.size="14" size="32" ui:inject="Button_cyan" font.name="lsp-icons" text="icons.actions.reverse"/>
+					</cell>
 
 					<ui:with pad.h="6" pad.v="4">
 						<knob id="ihc" size="20"/>
@@ -105,7 +107,14 @@
 						<knob id="ifo" size="20" scolor="fade_out"/>
 					</ui:with>
 
-					<cell rows="2"><button id="ils" size="32" toggle="false"/></cell>
+					<cell rows="2">
+						<hbox fill="false" spacing="4">
+							<ui:with font.name="lsp-icons" font.size="10" size="32" ui:inject="Button_cyan" toggle="false">
+								<button id="ils" text="icons.playback_big.play"/>
+								<button id="ilc" text="icons.playback_big.stop"/>
+							</ui:with>
+						</hbox>
+					</cell>
 
 					<combo id="cs" hfill="false" hreduce="true" pad.h="6" bright=":ca and (:cs ine 0) ? 1 : 0.75" bg.bright=":ca and (:cs ine 0) ? 1 : :const_bg_darken"/>
 
