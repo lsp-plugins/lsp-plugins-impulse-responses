@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.28 ===
+* Updated build scripts and dependencies.
+
 === 1.0.27 ===
 * Added Stop button for stopping audio file preview.
 * Updated build scripts and dependencies.
