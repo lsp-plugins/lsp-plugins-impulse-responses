@@ -99,6 +99,7 @@ namespace lsp
 
         #define IR_SAMPLE_FILE(id, label)   \
             PATH("ifn" id, "Impulse file" label),    \
+            CONTROL("psh" id, "File pitch" label, U_SEMITONES, impulse_responses_metadata::FILE_PITCH), \
             CONTROL("ihc" id, "Head cut" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
             CONTROL("itc" id, "Tail cut" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
             CONTROL("ifi" id, "Fade in" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
