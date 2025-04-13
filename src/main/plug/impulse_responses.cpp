@@ -953,9 +953,9 @@ namespace lsp
 
                 // Copy data of original sample to temporary sample and perform resampling if needed
                 dspu::Sample temp;
-                if (f->fPitch != 0.0f)
+                const ssize_t sample_rate_dst  = fSampleRate * dspu::semitones_to_frequency_shift(-f->fPitch);
+                if (sample_rate_dst != fSampleRate)
                 {
-                    const size_t sample_rate_dst  = fSampleRate * dspu::semitones_to_frequency_shift(-f->fPitch);
                     if (temp.copy(af) != STATUS_OK)
                     {
                         lsp_warn("Error copying source sample");
