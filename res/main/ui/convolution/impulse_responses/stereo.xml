@@ -191,7 +191,7 @@
 		</group>
 	</vbox>
 
-	<overlay id="eqv" trigger="eq_trigger" hpos="-1" vpos="1" halign="1" valign="1" ipadding.t="4" padding.l="0" ipadding.l="0" padding.r="0" ipadding.r="0">
+	<overlay id="eqv" trigger="eq_trigger" hpos="0" vpos="1" halign="1" valign="1" ipadding.t="4" padding.l="0" ipadding.l="0" padding.r="0" ipadding.r="0">
 		<group text="groups.wet_signal_eq" ipadding="0">
 			<grid rows="7" cols="12">
 
