@@ -5,10 +5,8 @@
 			<hbox pad.l="6" pad.r="6" pad.t="4" pad.b="4" spacing="4" fill="false" bg.color="bg_schema">
 				<label text="labels.fft.frame"/>
 				<combo id="fft" pad.r="10"/>
-				<!-- <label text="labels.file" /> -->
-				<combo id="fsel"/>
-				<button id="wpp" pad.l="10" ui:inject="Button_green" text="labels.ir_equalizer" size="16"/>
-				<button id="eqv" ui:inject="Button_yellow" text="labels.flt.show_" size="16"/>
+				<combo id="fsel" pad.r="10"/>
+				<button id="eqv" ui:id="eq_trigger" ui:inject="Button_yellow" text="labels.ir_equalizer" size="16"/>
 			</hbox>
 		</align>
 
@@ -191,10 +189,22 @@
 				</grid>
 			</vbox>
 		</group>
+	</vbox>
 
-		<!-- Wet equalization -->
-		<group text="groups.wet_signal_eq" visibility=":eqv" ipadding="0">
-			<grid rows="5" cols="12">
+	<overlay id="eqv" trigger="eq_trigger" hpos="-1" vpos="1" halign="1" valign="1" ipadding.t="4" padding.l="0" ipadding.l="0" padding.r="0" ipadding.r="0">
+		<group text="groups.wet_signal_eq" ipadding="0">
+			<grid rows="7" cols="12">
+
+				<cell cols="12">
+						<hbox pad.l="6" pad.r="6" pad.t="4" pad.b="4" spacing="4" bg.color="bg_schema">
+							<void hfill="true" hexpand="true"/>
+							<button id="wpp" ui:inject="Button_green" text="labels.enable" size="16"/>
+						</hbox>
+				</cell>
+
+				<cell cols="12">
+					<hsep bg.color="bg" pad.v="2" vreduce="true"/>
+				</cell>
 
 				<label text="labels.flt.low_cut" pad.h="6" pad.v="4" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
 
@@ -242,5 +252,5 @@
 				</ui:with>
 			</grid>
 		</group>
-	</vbox>
+	</overlay>
 </plugin>

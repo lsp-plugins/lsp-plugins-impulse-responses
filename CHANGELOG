@@ -3,6 +3,9 @@
 *******************************************************************************
 
 === 1.0.29 ===
+* Added overlay for equalization group.
+
+=== 1.0.29 ===
 * Added file pitching knob.
 * Updated build scripts and dependencies.
 
