@@ -197,7 +197,7 @@
 
 				<label text="labels.flt.high_cut" bright="(:wpp) and (:hcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
 
-				<combo id="lcm" fill="false" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
+				<combo id="lcm" pad.h="6" fill="false" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
 
 				<ui:with pad.h="6" pad.v="4" bright="(:wpp)? 1 : 0.75" bg.bright="(:wpp) ? 1 : :const_bg_darken">
 					<ui:for id="f" first="0" last="7">
@@ -207,7 +207,7 @@
 					</ui:for>
 				</ui:with>
 
-				<combo id="hcm" fill="false" bright="(:wpp) and (:hcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
+				<combo id="hcm" pad.h="6" fill="false" bright="(:wpp) and (:hcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:hcm igt 0) ? 1 : :const_bg_darken"/>
 
 				<ui:with pad.h="6" pad.v="4">
 					<label text="labels.frequency" bright="(:wpp) and (:lcm igt 0) ? 1 : 0.75" bg.bright="(:wpp) and (:lcm igt 0) ? 1 : :const_bg_darken"/>
