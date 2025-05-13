@@ -112,8 +112,8 @@ namespace lsp
             MESH("ifd" id, "Impulse file contents" label, impulse_responses_metadata::TRACKS_MAX, impulse_responses_metadata::MESH_SIZE)
 
         #define IR_SOURCE(id, label, alias, select, dfl) \
-            COMBO("cs" id, "Channel source" label, "Source" label, dfl, select), \
-            AMP_GAIN100("mk" id, "Makeup gain" label, 1.0f), \
+            COMBO("cs" id, "Channel source" label, "Source" alias, dfl, select), \
+            AMP_GAIN100("mk" id, "Makeup gain" label, "Makeup" alias, 1.0f), \
             BLINK("ca" id, "Channel activity" label), \
             CONTROL("pd" id, "Pre-delay" label, "Pre-delay" alias, U_MSEC, impulse_responses_metadata::PREDELAY)
 
