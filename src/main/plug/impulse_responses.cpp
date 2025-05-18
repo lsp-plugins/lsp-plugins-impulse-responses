@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -324,15 +324,19 @@ namespace lsp
                 f->nStatus      = STATUS_UNSPECIFIED;
                 f->bSync        = true;
                 f->bReverse     = false;
+                f->fPitch       = 0.0f;
                 f->fHeadCut     = 0.0f;
                 f->fTailCut     = 0.0f;
                 f->fFadeIn      = 0.0f;
                 f->fFadeOut     = 0.0f;
 
+                f->fDuration    = 0.0f;
+
                 f->pLoader      = new IRLoader(this, f);
                 if (f->pLoader == NULL)
                     return;
                 f->pFile        = NULL;
+                f->pPitch       = NULL;
                 f->pHeadCut     = NULL;
                 f->pTailCut     = NULL;
                 f->pFadeIn      = NULL;
@@ -377,6 +381,7 @@ namespace lsp
                 f->sStop.init();
 
                 BIND_PORT(f->pFile);
+                BIND_PORT(f->pPitch);
                 BIND_PORT(f->pHeadCut);
                 BIND_PORT(f->pTailCut);
                 BIND_PORT(f->pFadeIn);
@@ -490,17 +495,20 @@ namespace lsp
                 c->sBypass.set_bypass(pBypass->value() >= 0.5f);
 
                 // Check that file parameters have changed
+                float pitch         = f->pPitch->value();
                 float head_cut      = f->pHeadCut->value();
                 float tail_cut      = f->pTailCut->value();
                 float fade_in       = f->pFadeIn->value();
                 float fade_out      = f->pFadeOut->value();
                 bool reverse        = f->pReverse->value() >= 0.5f;
-                if ((f->fHeadCut != head_cut) ||
+                if ((f->fPitch != pitch) ||
+                    (f->fHeadCut != head_cut) ||
                     (f->fTailCut != tail_cut) ||
                     (f->fFadeIn  != fade_in ) ||
                     (f->fFadeOut != fade_out) ||
                     (f->bReverse != reverse))
                 {
+                    f->fPitch           = pitch;
                     f->fHeadCut         = head_cut;
                     f->fTailCut         = tail_cut;
                     f->fFadeIn          = fade_in;
@@ -808,6 +816,10 @@ namespace lsp
                 c->pActivity->set_value((c->pCurr != NULL) ? 1.0f : 0.0f);
             }
 
+            // Do not output meshes until configuration finishes
+            if (!sConfigurator.idle())
+                return;
+
             // Update indicators and meshes (if possible)
             for (size_t i=0; i<nChannels; ++i)
             {
@@ -823,7 +835,7 @@ namespace lsp
                 channels                = lsp_min(channels, nChannels);
 
                 // Output activity indicator
-                float duration          = (af->pOriginal != NULL) ? af->pOriginal->duration() : 0.0f;
+                const float duration    = (af->pOriginal != NULL) ? af->fDuration : 0.0f;
                 af->pLength->set_value(duration * 1000.0f);
                 af->pStatus->set_value(af->nStatus);
 
@@ -939,6 +951,24 @@ namespace lsp
                 if (af == NULL)
                     continue;
 
+                // Copy data of original sample to temporary sample and perform resampling if needed
+                dspu::Sample temp;
+                const ssize_t sample_rate_dst  = fSampleRate * dspu::semitones_to_frequency_shift(-f->fPitch);
+                if (sample_rate_dst != fSampleRate)
+                {
+                    if (temp.copy(af) != STATUS_OK)
+                    {
+                        lsp_warn("Error copying source sample");
+                        return STATUS_NO_MEM;
+                    }
+                    if (temp.resample(sample_rate_dst) != STATUS_OK)
+                    {
+                        lsp_warn("Error resampling source sample");
+                        return STATUS_NO_MEM;
+                    }
+                    af          = &temp;
+                }
+
                 // Allocate new sample
                 dspu::Sample *s     = new dspu::Sample();
                 if (s == NULL)
@@ -947,7 +977,7 @@ namespace lsp
                 lsp_finally { destroy_sample(s); };
 
                 // Obtain new sample parameters
-                ssize_t flen        = af->samples();
+                const ssize_t flen  = af->samples();
                 size_t channels     = lsp_min(af->channels(), meta::impulse_responses_metadata::TRACKS_MAX);
                 size_t head_cut     = dspu::millis_to_samples(fSampleRate, f->fHeadCut);
                 size_t tail_cut     = dspu::millis_to_samples(fSampleRate, f->fTailCut);
@@ -1000,6 +1030,7 @@ namespace lsp
 
                 // Commit sample to the processed list
                 lsp::swap(f->pProcessed, s);
+                f->fDuration        = dspu::samples_to_seconds(fSampleRate, flen);
             }
 
             // Randomize phase of the convolver
@@ -1118,14 +1149,17 @@ namespace lsp
                         v->write("bSync", af->bSync);
                         v->write("bReverse", af->bReverse);
 
+                        v->write("fPitch", af->fPitch);
                         v->write("fHeadCut", af->fHeadCut);
                         v->write("fTailCut", af->fTailCut);
                         v->write("fFadeIn", af->fFadeIn);
                         v->write("fFadeOut", af->fFadeOut);
+                        v->write("fDuration", af->fDuration);
 
                         v->write_object("pLoader", af->pLoader);
 
                         v->write("pFile", af->pFile);
+                        v->write("pPitch", af->pPitch);
                         v->write("pHeadCut", af->pHeadCut);
                         v->write("pTailCut", af->pTailCut);
                         v->write("pFadeIn", af->pFadeIn);

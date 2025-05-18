@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -57,14 +57,18 @@ namespace lsp
                     bool                bSync;          // Synchronize file
                     bool                bReverse;       // Reverse impulse response
 
+                    float               fPitch;         // Pitch amount
                     float               fHeadCut;
                     float               fTailCut;
                     float               fFadeIn;
                     float               fFadeOut;
 
+                    float               fDuration;      // Actual audio file duration
+
                     IRLoader           *pLoader;        // Audio file loader task
 
                     plug::IPort        *pFile;          // Port that contains file name
+                    plug::IPort        *pPitch;         // Pitching amount in semitones
                     plug::IPort        *pHeadCut;
                     plug::IPort        *pTailCut;
                     plug::IPort        *pFadeIn;

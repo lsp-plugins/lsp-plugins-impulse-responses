@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -27,7 +27,7 @@
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MAJOR       1
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MINOR       0
-#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       28
+#define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION_MICRO       29
 
 #define LSP_PLUGINS_IMPULSE_RESPONSES_VERSION  \
     LSP_MODULE_VERSION( \
@@ -91,7 +91,7 @@ namespace lsp
 
         #define IR_COMMON \
             BYPASS, \
-            COMBO("fft", "FFT size", impulse_responses_metadata::FFT_RANK_DEFAULT, ir_fft_rank), \
+            COMBO("fft", "FFT size", "FFT size", impulse_responses_metadata::FFT_RANK_DEFAULT, ir_fft_rank), \
             DRY_GAIN(1.0f), \
             WET_GAIN(1.0f), \
             DRYWET(100.0f), \
@@ -99,31 +99,32 @@ namespace lsp
 
         #define IR_SAMPLE_FILE(id, label)   \
             PATH("ifn" id, "Impulse file" label),    \
-            CONTROL("ihc" id, "Head cut" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
-            CONTROL("itc" id, "Tail cut" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
-            CONTROL("ifi" id, "Fade in" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
-            CONTROL("ifo" id, "Fade out" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
-            TRIGGER("ils" id, "Impulse preview listen" label), \
-            TRIGGER("ilc" id, "Impulse preview stop" label), \
-            SWITCH("irv" id, "Impulse reverse" label, 0.0f), \
+            CONTROL("psh" id, "File pitch" label, NULL, U_SEMITONES, impulse_responses_metadata::FILE_PITCH), \
+            CONTROL("ihc" id, "Head cut" label, NULL, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
+            CONTROL("itc" id, "Tail cut" label, NULL, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
+            CONTROL("ifi" id, "Fade in" label, NULL, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
+            CONTROL("ifo" id, "Fade out" label, NULL, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
+            TRIGGER("ils" id, "Impulse preview listen" label, "Play" label), \
+            TRIGGER("ilc" id, "Impulse preview stop" label, "Stop" label), \
+            SWITCH("irv" id, "Impulse reverse" label, "Reverse" label, 0.0f), \
             STATUS("ifs" id, "Load status" label), \
             METER("ifl" id, "Impulse length" label, U_MSEC, impulse_responses_metadata::CONV_LENGTH), \
             MESH("ifd" id, "Impulse file contents" label, impulse_responses_metadata::TRACKS_MAX, impulse_responses_metadata::MESH_SIZE)
 
-        #define IR_SOURCE(id, label, select, dfl) \
-            COMBO("cs" id, "Channel source" label, dfl, select), \
-            AMP_GAIN100("mk" id, "Makeup gain" label, 1.0f), \
+        #define IR_SOURCE(id, label, alias, select, dfl) \
+            COMBO("cs" id, "Channel source" label, "Source" alias, dfl, select), \
+            AMP_GAIN100("mk" id, "Makeup gain" label, "Makeup" alias, 1.0f), \
             BLINK("ca" id, "Channel activity" label), \
-            CONTROL("pd" id, "Pre-delay" label, U_MSEC, impulse_responses_metadata::PREDELAY)
+            CONTROL("pd" id, "Pre-delay" label, "Pre-delay" alias, U_MSEC, impulse_responses_metadata::PREDELAY)
 
         #define IR_EQ_BAND(id, freq)    \
-            CONTROL("eq_" #id, "Band " freq "Hz gain", U_GAIN_AMP, impulse_responses_metadata::BA)
+            CONTROL("eq_" #id, "Band " freq "Hz gain", "Eq " freq, U_GAIN_AMP, impulse_responses_metadata::BA)
 
         #define IR_EQUALIZER    \
-            SWITCH("wpp", "Wet post-process", 0),    \
-            SWITCH("eqv", "Equalizer visibility", 0),    \
-            COMBO("lcm", "Low-cut mode", 0, filter_slope),      \
-            LOG_CONTROL("lcf", "Low-cut frequency", U_HZ, impulse_responses_metadata::LCF),   \
+            SWITCH("wpp", "Wet post-process", "Wet postproc", 0),    \
+            SWITCH("eqv", "Equalizer visibility", "Show Eq", 0),    \
+            COMBO("lcm", "Low-cut mode", "LC mode", 0, filter_slope),      \
+            LOG_CONTROL("lcf", "Low-cut frequency", "LC freq", U_HZ, impulse_responses_metadata::LCF),   \
             IR_EQ_BAND(0, "50"), \
             IR_EQ_BAND(1, "107"), \
             IR_EQ_BAND(2, "227"), \
@@ -132,8 +133,8 @@ namespace lsp
             IR_EQ_BAND(5, "2.2 k"), \
             IR_EQ_BAND(6, "4.7 k"), \
             IR_EQ_BAND(7, "10 k"), \
-            COMBO("hcm", "High-cut mode", 0, filter_slope),      \
-            LOG_CONTROL("hcf", "High-cut frequency", U_HZ, impulse_responses_metadata::HCF)
+            COMBO("hcm", "High-cut mode", "HC mode", 0, filter_slope),      \
+            LOG_CONTROL("hcf", "High-cut frequency", "HC freq", U_HZ, impulse_responses_metadata::HCF)
 
         static const port_t impulse_responses_mono_ports[] =
         {
@@ -143,7 +144,7 @@ namespace lsp
 
             // Input controls
             IR_SAMPLE_FILE("", ""),
-            IR_SOURCE("", "", ir_source_mono, 1),
+            IR_SOURCE("", "", "", ir_source_mono, 1),
             IR_EQUALIZER,
 
             PORTS_END
@@ -154,13 +155,13 @@ namespace lsp
             // Input audio ports
             PORTS_STEREO_PLUGIN,
             IR_COMMON,
-            COMBO("fsel", "File selector", 0, ir_file_select), \
+            COMBO("fsel", "File selector", "File selector", 0, ir_file_select), \
 
             // Input controls
             IR_SAMPLE_FILE("0", " 1"),
             IR_SAMPLE_FILE("1", " 2"),
-            IR_SOURCE("_l", " Left", ir_source_stereo, 1),
-            IR_SOURCE("_r", " Right", ir_source_stereo, 2),
+            IR_SOURCE("_l", " Left", " L", ir_source_stereo, 1),
+            IR_SOURCE("_r", " Right", " R", ir_source_stereo, 2),
             IR_EQUALIZER,
 
             PORTS_END

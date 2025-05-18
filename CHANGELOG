@@ -2,6 +2,13 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.30 ===
+* Added overlay for equalization group.
+
+=== 1.0.29 ===
+* Added file pitching knob.
+* Updated build scripts and dependencies.
+
 === 1.0.28 ===
 * Updated build scripts and dependencies.
 

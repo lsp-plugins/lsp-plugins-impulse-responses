@@ -32,6 +32,11 @@ namespace lsp
     {
         struct impulse_responses_metadata
         {
+            static constexpr float FILE_PITCH_MIN           = -24.0f;   // Minimum pitch (st)
+            static constexpr float FILE_PITCH_MAX           = 24.0f;    // Maximum pitch (st)
+            static constexpr float FILE_PITCH_DFL           = 0.0f;     // Pitch (st)
+            static constexpr float FILE_PITCH_STEP          = 0.01f;    // Pitch step (st)
+
             static constexpr float CONV_LENGTH_MIN          = 0.0f;     // Minimum convolution length (ms)
             static constexpr float CONV_LENGTH_MAX          = 10000.0f; // Maximum convoluition length (ms)
             static constexpr float CONV_LENGTH_DFL          = 0.0f;     // Convolution length (ms)
