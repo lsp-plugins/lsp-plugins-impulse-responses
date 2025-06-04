@@ -908,14 +908,6 @@ namespace lsp
                 return status;
             }
 
-            // Try to resample
-            status  = af->resample(fSampleRate);
-            if (status != STATUS_OK)
-            {
-                lsp_trace("resample failed: status=%d (%s)", status, get_status(status));
-                return status;
-            }
-
             // Determine the normalizing factor
             size_t channels         = af->channels();
             float max = 0.0f;
@@ -953,8 +945,8 @@ namespace lsp
 
                 // Copy data of original sample to temporary sample and perform resampling if needed
                 dspu::Sample temp;
-                const ssize_t sample_rate_dst  = fSampleRate * dspu::semitones_to_frequency_shift(-f->fPitch);
-                if (sample_rate_dst != fSampleRate)
+                const size_t sample_rate_dst  = fSampleRate * dspu::semitones_to_frequency_shift(-f->fPitch);
+                if (sample_rate_dst != af->sample_rate())
                 {
                     if (temp.copy(af) != STATUS_OK)
                     {
@@ -966,6 +958,7 @@ namespace lsp
                         lsp_warn("Error resampling source sample");
                         return STATUS_NO_MEM;
                     }
+
                     af          = &temp;
                 }
 
