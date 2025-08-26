@@ -13,7 +13,7 @@
 			<vbox>
 				<!-- File editor -->
 
-				<hbox width.min="803" height.min="256">
+				<hbox width.min="803" height.min="256" expand="true">
 					<asample
 						expand="true"
 						id="ifn"
