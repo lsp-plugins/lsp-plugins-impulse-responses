@@ -107,7 +107,6 @@ namespace lsp
         void impulse_responses::IRConfigurator::dump(dspu::IStateDumper *v) const
         {
             v->write("pCore", pCore);
-            v->end_array();
         }
 
         //-------------------------------------------------------------------------
