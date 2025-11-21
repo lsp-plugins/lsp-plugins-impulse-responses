@@ -79,6 +79,10 @@ namespace lsp
 
         status_t impulse_responses::IRLoader::run()
         {
+            dsp::context_t ctx;
+            dsp::start(&ctx);
+            lsp_finally { dsp::finish(&ctx); };
+
             return pCore->load(pDescr);
         }
 
@@ -101,6 +105,10 @@ namespace lsp
 
         status_t impulse_responses::IRConfigurator::run()
         {
+            dsp::context_t ctx;
+            dsp::start(&ctx);
+            lsp_finally { dsp::finish(&ctx); };
+
             return pCore->reconfigure();
         }
 
