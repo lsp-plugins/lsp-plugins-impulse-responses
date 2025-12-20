@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.34 ===
+
+
 === 1.0.33 ===
 * Offline tasks are optimized for better floating-point computing.
 * Updated build scripts and dependencies.
