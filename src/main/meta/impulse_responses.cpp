@@ -205,7 +205,7 @@ namespace lsp
             clap_features_mono,
             E_DUMP_STATE | E_FILE_PREVIEW,
             impulse_responses_mono_ports,
-            "convolution/impulse_responses/mono.xml",
+            "plugins/convolution/impulse_responses/mono.xml",
             NULL,
             mono_plugin_port_groups,
             &impulse_responses_bundle
@@ -236,7 +236,7 @@ namespace lsp
             clap_features_stereo,
             E_DUMP_STATE | E_FILE_PREVIEW,
             impulse_responses_stereo_ports,
-            "convolution/impulse_responses/stereo.xml",
+            "plugins/convolution/impulse_responses/stereo.xml",
             NULL,
             stereo_plugin_port_groups,
             &impulse_responses_bundle
