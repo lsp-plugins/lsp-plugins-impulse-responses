@@ -208,7 +208,8 @@ namespace lsp
             "plugins/convolution/impulse_responses/mono.xml",
             NULL,
             mono_plugin_port_groups,
-            &impulse_responses_bundle
+            &impulse_responses_bundle,
+            2
         };
         LSP_REGISTER_METADATA(impulse_responses_mono);
 
@@ -239,7 +240,8 @@ namespace lsp
             "plugins/convolution/impulse_responses/stereo.xml",
             NULL,
             stereo_plugin_port_groups,
-            &impulse_responses_bundle
+            &impulse_responses_bundle,
+            1
         };
         LSP_REGISTER_METADATA(impulse_responses_stereo);
 
