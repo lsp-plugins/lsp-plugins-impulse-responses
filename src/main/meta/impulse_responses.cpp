@@ -41,6 +41,10 @@ namespace lsp
 {
     namespace meta
     {
+        // Lisf of different revisions for adding controls
+        #define REV_0       0
+        #define REV_1       1
+
         //-------------------------------------------------------------------------
         // Impulse responses
         static const port_item_t ir_source_mono[] =
@@ -118,24 +122,35 @@ namespace lsp
             BLINK("ca" id, "Channel activity" label), \
             CONTROL("pd" id, "Pre-delay" label, "Pre-delay" alias, U_MSEC, impulse_responses_metadata::PREDELAY)
 
-        #define IR_EQ_BAND(id, freq)    \
-            CONTROL("eq_" #id, "Band " freq "Hz gain", "Eq " freq, U_GAIN_AMP, impulse_responses_metadata::BA)
+        #define IR_EQ_BAND(rev, id, name, alias, freq)    \
+            ADDON_CONTROL(rev, "eq_" id, "Band " name freq "Hz gain", "Eq " alias freq, U_GAIN_AMP, impulse_responses_metadata::BA)
 
-        #define IR_EQUALIZER    \
+        #define IR_EQ_BANDS(rev, id, name, alias) \
+            ADDON_COMBO(rev, "lcm" id, "Low-cut mode" name, "LC mode" alias, 0, filter_slope),      \
+            ADDON_LOG_CONTROL(rev, "lcf" id, "Low-cut frequency" name, "LC freq" alias, U_HZ, impulse_responses_metadata::LCF),   \
+            IR_EQ_BAND(rev, "0" id, name, alias, "50"), \
+            IR_EQ_BAND(rev, "1" id, name, alias, "107"), \
+            IR_EQ_BAND(rev, "2" id, name, alias, "227"), \
+            IR_EQ_BAND(rev, "3" id, name, alias, "484"), \
+            IR_EQ_BAND(rev, "4" id, name, alias, "1 k"), \
+            IR_EQ_BAND(rev, "5" id, name, alias, "2.2 k"), \
+            IR_EQ_BAND(rev, "6" id, name, alias, "4.7 k"), \
+            IR_EQ_BAND(rev, "7" id, name, alias, "10 k"), \
+            ADDON_COMBO(rev, "hcm" id, "High-cut mode" name, "HC mode" alias, 0, filter_slope),      \
+            ADDON_LOG_CONTROL(rev, "hcf" id, "High-cut frequency" name, "HC freq" alias, U_HZ, impulse_responses_metadata::HCF)
+
+        #define IR_EQ_BANDS_MONO \
+            IR_EQ_BANDS(REV_0, "", "", "")
+
+        #define IR_EQ_BANDS_STEREO \
+            ADDON_SWITCH(REV_1, "ssplit", "Stereo equalizer split", "Eq split", 0.0f), \
+            IR_EQ_BANDS(REV_0, "", "", ""), \
+            IR_EQ_BANDS(REV_1, "r", "Right ", "R ")
+
+        #define IR_EQUALIZER(bands)    \
             SWITCH("wpp", "Wet post-process", "Wet postproc", 0),    \
             SWITCH("eqv", "Equalizer visibility", "Show Eq", 0),    \
-            COMBO("lcm", "Low-cut mode", "LC mode", 0, filter_slope),      \
-            LOG_CONTROL("lcf", "Low-cut frequency", "LC freq", U_HZ, impulse_responses_metadata::LCF),   \
-            IR_EQ_BAND(0, "50"), \
-            IR_EQ_BAND(1, "107"), \
-            IR_EQ_BAND(2, "227"), \
-            IR_EQ_BAND(3, "484"), \
-            IR_EQ_BAND(4, "1 k"), \
-            IR_EQ_BAND(5, "2.2 k"), \
-            IR_EQ_BAND(6, "4.7 k"), \
-            IR_EQ_BAND(7, "10 k"), \
-            COMBO("hcm", "High-cut mode", "HC mode", 0, filter_slope),      \
-            LOG_CONTROL("hcf", "High-cut frequency", "HC freq", U_HZ, impulse_responses_metadata::HCF)
+            bands
 
         static const port_t impulse_responses_mono_ports[] =
         {
@@ -146,7 +161,7 @@ namespace lsp
             // Input controls
             IR_SAMPLE_FILE("", ""),
             IR_SOURCE("", "", "", ir_source_mono, 1),
-            IR_EQUALIZER,
+            IR_EQUALIZER(IR_EQ_BANDS_MONO),
 
             PORTS_END
         };
@@ -163,7 +178,7 @@ namespace lsp
             IR_SAMPLE_FILE("1", " 2"),
             IR_SOURCE("_l", " Left", " L", ir_source_stereo, 1),
             IR_SOURCE("_r", " Right", " R", ir_source_stereo, 2),
-            IR_EQUALIZER,
+            IR_EQUALIZER(IR_EQ_BANDS_STEREO),
 
             PORTS_END
         };

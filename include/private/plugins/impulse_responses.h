@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -107,7 +107,6 @@ namespace lsp
                     plug::IPort        *pActivity;
                     plug::IPort        *pPredelay;
 
-                    plug::IPort        *pWetEq;         // Wet equalization flag
                     plug::IPort        *pLowCut;        // Low-cut flag
                     plug::IPort        *pLowFreq;       // Low-cut frequency
                     plug::IPort        *pHighCut;       // High-cut flag
@@ -200,6 +199,8 @@ namespace lsp
                 plug::IPort            *pWet;
                 plug::IPort            *pDryWet;
                 plug::IPort            *pOutGain;
+                plug::IPort            *pWetEq;         // Wet equalization flag
+                plug::IPort            *pWetSplit;      // Equalizer L/R split
 
                 uint8_t                *pData;
 
