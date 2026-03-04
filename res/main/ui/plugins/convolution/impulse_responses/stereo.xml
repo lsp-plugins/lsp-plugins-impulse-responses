@@ -1,4 +1,18 @@
 <plugin resizable="true">
+
+	<ui:for id="port" list="'lcm'; 'hcm'; 'lcf'; 'hcf'">
+		<ctl:link
+			id.1="${port}" value.1=":${port}r"
+			id.2="${port}r" value.2=":${port}"
+			activity="!:ssplit" />
+	</ui:for>
+	<ui:for id="port" first="0" count="8">
+		<ctl:link
+			id.1="eq_${port}" value.1=":eq_${port}r"
+			id.2="eq_${port}r" value.2=":eq_${port}"
+			activity="!:ssplit" />
+	</ui:for>
+
 	<vbox spacing="4">
 		<!-- IR editor -->
 		<align halign="-1" hfill="true" vreduce="true">
