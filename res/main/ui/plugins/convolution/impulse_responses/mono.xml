@@ -6,6 +6,7 @@
 				<label text="labels.fft.frame"/>
 				<combo id="fft" pad.r="10"/>
 				<button id="eqv" ui:id="eq_trigger" ui:inject="Button_yellow" text="labels.ir_equalizer" size="16"/>
+				<button id="wpp" ui:inject="Button_green" text="labels.enable" size="16"/>
 			</hbox>
 		</align>
 
