@@ -901,8 +901,10 @@ namespace lsp
 
             // Get file name
             const char *fname = path->path();
-            if (strlen(fname) <= 0)
+            if ((fname == NULL) || (strlen(fname) <= 0))
                 return STATUS_UNSPECIFIED;
+
+            lsp_trace("Loading file '%s'...", path);
 
             // Load audio file
             dspu::Sample *af    = new dspu::Sample();
@@ -916,7 +918,7 @@ namespace lsp
             status_t status = af->load(fname,  convLengthMaxSeconds);
             if (status != STATUS_OK)
             {
-                lsp_trace("load failed: status=%d (%s)", status, get_status(status));
+                lsp_trace("Load file '%s' failed: status=%d (%s)", path, status, get_status(status));
                 return status;
             }
 
