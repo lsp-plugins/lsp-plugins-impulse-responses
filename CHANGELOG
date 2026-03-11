@@ -4,6 +4,7 @@
 
 === 1.0.34 ===
 * Added possibility to independently equalize left and right channels of wet signal.
+* Updated build scripts and dependencies.
 
 === 1.0.33 ===
 * Offline tasks are optimized for better floating-point computing.
