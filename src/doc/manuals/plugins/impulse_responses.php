@@ -49,9 +49,12 @@
 <p><b>Wet Signal Equalization</b> overlay:</p>
 <ul>
 	<li><b>Enabled</b> - enables wet (processed) signal equalization.</li>
-	<li><b>Low-cut</b> - sets the slope of the high-pass butterworth filter, possible slopes are 6, 12 and 18 dB/octave.</li>
+	<?php if ($s) {?>
+	<li><b>Stereo Split</b> - enables independent equalization of left and right channels.</li>
+	<?php } ?>
+	<li><b>Low-cut</b> - sets the slope of the high-pass butterworth filter, possible slopes are 12, 24 and 36 dB/octave.</li>
 	<li><b>Low-cut freq</b> - the cutoff frequency of the high-pass butterworth filter.</li>
 	<li><b>Faders</b> - faders that allow to change the loudness of eight corresponding frequency bands in range of -12..+12 dB</li>
-	<li><b>High-cut</b> - sets the slope of the low-pass butterworth filter, possible slopes are 6, 12 and 18 dB/octave.</li>
+	<li><b>High-cut</b> - sets the slope of the low-pass butterworth filter, possible slopes are 12, 24 and 36 dB/octave.</li>
 	<li><b>High-cut freq</b> - the cutoff frequency of the low-pass butterworth filter.</li>
 </ul>

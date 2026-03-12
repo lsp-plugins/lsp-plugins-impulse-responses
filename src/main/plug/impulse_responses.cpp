@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-impulse-responses
  * Created on: 3 авг. 2021 г.
@@ -166,6 +166,9 @@ namespace lsp
             pDryWet         = NULL;
             pOutGain        = NULL;
 
+            pWetEq          = NULL;
+            pWetSplit       = NULL;
+
             pData           = NULL;
         }
 
@@ -302,7 +305,6 @@ namespace lsp
                 c->pActivity    = NULL;
                 c->pPredelay    = NULL;
 
-                c->pWetEq       = NULL;
                 c->pLowCut      = NULL;
                 c->pLowFreq     = NULL;
                 c->pHighCut     = NULL;
@@ -415,13 +417,15 @@ namespace lsp
 
             // Bind wet processing ports
             lsp_trace("Binding wet processing ports");
-            size_t port         = port_id;
+            BIND_PORT(pWetEq);
+            SKIP_PORT("Equalizer visibility"); // Skip equalizer visibility port
+            if (nChannels > 1)
+                BIND_PORT(pWetSplit);
+
             for (size_t i=0; i<nChannels; ++i)
             {
                 channel_t *c        = &vChannels[i];
 
-                BIND_PORT(c->pWetEq);
-                SKIP_PORT("Equalizer visibility"); // Skip equalizer visibility port
                 BIND_PORT(c->pLowCut);
                 BIND_PORT(c->pLowFreq);
 
@@ -430,8 +434,6 @@ namespace lsp
 
                 BIND_PORT(c->pHighCut);
                 BIND_PORT(c->pHighFreq);
-
-                port_id         = port;
             }
         }
 
@@ -484,9 +486,13 @@ namespace lsp
                 nRank               = rank;
             }
 
+            const dspu::equalizer_mode_t eq_mode    = (pWetEq->value() >= 0.5f) ? dspu::EQM_IIR : dspu::EQM_BYPASS;
+            const bool ssplit                       = (pWetSplit != NULL) ? pWetSplit->value() >= 0.5f : false;
+
             for (size_t i=0; i<nChannels; ++i)
             {
-                channel_t *c        = &vChannels[i];
+                channel_t * const c = &vChannels[i];
+                channel_t * const sc= (ssplit) ? &vChannels[i] : &vChannels[0];     // The channel to take settings from
                 af_descriptor_t *f  = &vFiles[i];
 
                 const float drywet  = pDryWet->value() * 0.01f;
@@ -539,7 +545,6 @@ namespace lsp
 
                 // Update equalization parameters
                 dspu::Equalizer *eq             = &c->sEqualizer;
-                dspu::equalizer_mode_t eq_mode  = (c->pWetEq->value() >= 0.5f) ? dspu::EQM_IIR : dspu::EQM_BYPASS;
                 eq->set_mode(eq_mode);
 
                 if (eq_mode != dspu::EQM_BYPASS)
@@ -569,7 +574,7 @@ namespace lsp
                             fp.nType        = dspu::FLT_MT_LRX_LADDERPASS;
                         }
 
-                        fp.fGain        = c->pFreqGain[band]->value();
+                        fp.fGain        = sc->pFreqGain[band]->value();
                         fp.nSlope       = 2;
                         fp.fQuality     = 0.0f;
 
@@ -578,9 +583,9 @@ namespace lsp
                     }
 
                     // Setup hi-pass filter
-                    size_t hp_slope = c->pLowCut->value() * 2;
+                    size_t hp_slope = sc->pLowCut->value() * 2;
                     fp.nType        = (hp_slope > 0) ? dspu::FLT_BT_BWC_HIPASS : dspu::FLT_NONE;
-                    fp.fFreq        = c->pLowFreq->value();
+                    fp.fFreq        = sc->pLowFreq->value();
                     fp.fFreq2       = fp.fFreq;
                     fp.fGain        = 1.0f;
                     fp.nSlope       = hp_slope;
@@ -588,9 +593,9 @@ namespace lsp
                     eq->set_params(band++, &fp);
 
                     // Setup low-pass filter
-                    size_t lp_slope = c->pHighCut->value() * 2;
+                    size_t lp_slope = sc->pHighCut->value() * 2;
                     fp.nType        = (lp_slope > 0) ? dspu::FLT_BT_BWC_LOPASS : dspu::FLT_NONE;
-                    fp.fFreq        = c->pHighFreq->value();
+                    fp.fFreq        = sc->pHighFreq->value();
                     fp.fFreq2       = fp.fFreq;
                     fp.fGain        = 1.0f;
                     fp.nSlope       = lp_slope;
@@ -896,8 +901,10 @@ namespace lsp
 
             // Get file name
             const char *fname = path->path();
-            if (strlen(fname) <= 0)
+            if ((fname == NULL) || (strlen(fname) <= 0))
                 return STATUS_UNSPECIFIED;
+
+            lsp_trace("Loading file '%s'...", path);
 
             // Load audio file
             dspu::Sample *af    = new dspu::Sample();
@@ -911,7 +918,7 @@ namespace lsp
             status_t status = af->load(fname,  convLengthMaxSeconds);
             if (status != STATUS_OK)
             {
-                lsp_trace("load failed: status=%d (%s)", status, get_status(status));
+                lsp_trace("Load file '%s' failed: status=%d (%s)", path, status, get_status(status));
                 return status;
             }
 
@@ -1118,7 +1125,6 @@ namespace lsp
                         v->write("pActivity", c->pActivity);
                         v->write("pPredelay", c->pPredelay);
 
-                        v->write("pWetEq", c->pWetEq);
                         v->write("pLowCut", c->pLowCut);
                         v->write("pLowFreq", c->pLowFreq);
                         v->write("pHighCut", c->pHighCut);
@@ -1189,6 +1195,8 @@ namespace lsp
             v->write("pWet", pWet);
             v->write("pDryWet", pDryWet);
             v->write("pOutGain", pOutGain);
+            v->write("pWetEq", pWetEq);
+            v->write("pWetSplit", pWetSplit);
 
             v->write("pData", pData);
         }
