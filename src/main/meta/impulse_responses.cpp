@@ -122,20 +122,20 @@ namespace lsp
             BLINK("ca" id, "Channel activity" label), \
             CONTROL("pd" id, "Pre-delay" label, "Pre-delay" alias, U_MSEC, impulse_responses_metadata::PREDELAY)
 
-        #define IR_EQ_BAND(rev, id, name, alias, freq)    \
-            ADDON_CONTROL(rev, "eq_" id, "Band " name freq "Hz gain", "Eq " alias freq, U_GAIN_AMP, impulse_responses_metadata::BA)
+        #define IR_EQ_BAND(rev, id, name, alias, freq, freq_a)    \
+            ADDON_CONTROL(rev, "eq_" id, "Band " name freq "Hz gain", "Eq " alias freq_a, U_GAIN_AMP, impulse_responses_metadata::BA)
 
         #define IR_EQ_BANDS(rev, id, name, alias) \
             ADDON_COMBO(rev, "lcm" id, "Low-cut mode" name, "LC mode" alias, 0, filter_slope),      \
             ADDON_LOG_CONTROL(rev, "lcf" id, "Low-cut frequency" name, "LC freq" alias, U_HZ, impulse_responses_metadata::LCF),   \
-            IR_EQ_BAND(rev, "0" id, name, alias, "50"), \
-            IR_EQ_BAND(rev, "1" id, name, alias, "107"), \
-            IR_EQ_BAND(rev, "2" id, name, alias, "227"), \
-            IR_EQ_BAND(rev, "3" id, name, alias, "484"), \
-            IR_EQ_BAND(rev, "4" id, name, alias, "1 k"), \
-            IR_EQ_BAND(rev, "5" id, name, alias, "2.2 k"), \
-            IR_EQ_BAND(rev, "6" id, name, alias, "4.7 k"), \
-            IR_EQ_BAND(rev, "7" id, name, alias, "10 k"), \
+            IR_EQ_BAND(rev, "0" id, name, alias, "50 ", "50"), \
+            IR_EQ_BAND(rev, "1" id, name, alias, "107 ", "107"), \
+            IR_EQ_BAND(rev, "2" id, name, alias, "227 ", "227"), \
+            IR_EQ_BAND(rev, "3" id, name, alias, "484 ", "484"), \
+            IR_EQ_BAND(rev, "4" id, name, alias, "1 k", "1k"), \
+            IR_EQ_BAND(rev, "5" id, name, alias, "2.2 k", "2.2k"), \
+            IR_EQ_BAND(rev, "6" id, name, alias, "4.7 k", "4.7k"), \
+            IR_EQ_BAND(rev, "7" id, name, alias, "10 k", "10k"), \
             ADDON_COMBO(rev, "hcm" id, "High-cut mode" name, "HC mode" alias, 0, filter_slope),      \
             ADDON_LOG_CONTROL(rev, "hcf" id, "High-cut frequency" name, "HC freq" alias, U_HZ, impulse_responses_metadata::HCF)
 
