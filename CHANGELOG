@@ -3,6 +3,8 @@
 *******************************************************************************
 
 === 1.0.36 ===
+* The auto-play and auto-load features in file navigator have been moved into separate
+  'UI Behavior' options.
 * Updated build scripts and dependencies.
 
 === 1.0.35 ===

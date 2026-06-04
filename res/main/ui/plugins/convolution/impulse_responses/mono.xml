@@ -40,7 +40,9 @@
 
 					<vbox vexpand="true" visibility="(:ifs ine 1)">
 						<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
-						<afolder id="ifn" expand="true" width.min="199"/>
+						<afolder id="ifn" expand="true" width.min="199"
+							autoload=":_ui_ir_list_navigation_autoload"
+							autoplay=":_ui_ir_list_navigation_autoplay" />
 						<void bg.color="bg_graph" pad.v="2" vreduce="true"/>
 
 						<ui:with fill="true">
