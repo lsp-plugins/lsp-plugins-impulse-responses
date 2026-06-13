@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.37 ===
-
+* Updated build scripts and dependencies.
 
 === 1.0.36 ===
 * The auto-play and auto-load features in file navigator have been moved into separate
